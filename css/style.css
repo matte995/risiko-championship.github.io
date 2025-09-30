@@ -27,10 +27,18 @@ body {
     font-family: "Fira Sans", sans-serif !important;
 }
 
+/* 
 .img-logo {
     width: 170px;
     height: auto;
 }
+*/
+.img-logo {
+    height: 75px;       /* regola tu la dimensione */
+    width: auto;
+}
+
+
 
 .img {
     width: 50%;
@@ -76,7 +84,7 @@ body {
 }
 
 .card-img-top {
-    width: 30%;
+    width: 20%;
     height: auto;
 }
 
@@ -85,9 +93,20 @@ body {
     margin-bottom: 3em;
 }
 
+.navbar {
+    min-height: 90px;   /* aumenta l’altezza della barra */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px; /* centra meglio il logo verticalmente */
+}
+
 .navbar-toggle {
     background-color: #002677 !important;
     border-color: white !important;
+    
 }
 
 .navbar-toggle:focus, .navbar-toggle:hover {
