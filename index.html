@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet"> <!-- Fira Sans & Roboto Slab fonts -->
+
+    <!-- FAVICON -->
+    <!--
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    -->
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type='text/css'>
+
+    <title>IncApacheSpark</title>
+</head>
+
+<body>
+
+<!-- ################################# NAVBAR #################################### -->
+<nav class="navbar navbar-default background-color navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed colored_text" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img alt="Logo" src="img/logo.svg" class="img-logo">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#section1" class="colored_text">Assignment 1</a></li>
+                <!--<li><a href="#section2" class="colored_text">Assignment 2</a></li>-->
+                <!--<li><a href="#section3" class="colored_text">Assignment 3</a></li>-->
+                <!--<li><a href="#section4" class="colored_text">Assignment 4</a></li>-->
+                <!--<li><a href="#section5" class="colored_text">Assignment 5</a></li>-->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+<nav class="breadcrumb-pos" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+    </ol>
+</nav>
+
+<!-- ################################# CONTAINER #################################### -->
+<div class="container center">
+    <section class="margin-title-section">
+        <h1 class="title center"> Eco-benefit Project</h1>
+        <h2 class="subtitle center">by IncApacheSpark: Bricola Andrea, Di Via Roberto, Gjergji Ani, Interlando Matteo, Piccardo
+            Giovanni. </h2>
+        <hr>
+        <div class="">
+            <h3 class="title left">What it is about:</h3><br>
+            <div class="subtitle left">
+                Welcome! This is an <b>interactive website</b> that display a few data visualizations on the <a
+                    href="https://github.com/Jeko83/TrentoTreeMap/tree/master/data"><b>Trento tree dataset</b></a>.
+                <br><br>
+                The message that <b>trees are important to everyone</b> is well-being and that we need to take action to
+                plant more and more of them in our cities is among those we often hear repeated.
+                Any of us appreciate all the benefits that trees bring, not only on the environmental front (temperature
+                abatement, noise reduction, drainage) but also on the ornamental front.
+                We also know that there is the <b>flip side of the coin</b> the one where branches (or whole trees) fall
+                off, roots break sidewalks, leaves in the fall cause people to trip, or hedgehogs from horse chestnuts,
+                which not only fall on the heads of people walking on the tree-lined street, but also contribute to
+                puncturing bicycle wheels.
+                Issues that should also help us reflect on the fact that trees do not take care of themselves and that
+                care and monitoring are necessary and important costs.
+                <br><br>
+                Trees are therefore an important infrastructure and so a legitimate question to ask is "but how much
+                should we pay them for the work they do? What is the value of this eco benefit?".
+                The question, over time, has been asked by many people and, therefore, there are already tools that on
+                the basis of the scientific literature, starting from some important data of trees (such as species,
+                height, circumference, crown width, geographic coordinates) make the calculation of this work and, from
+                there, associate the "price" with a series of (eco) benefits that trees produce.
+                <br><br>
+                Thus, <b>we decided to think about how to represent this eco-benefit.</b> This is an open-source
+                project, so you can find all the code on <a
+                    href="https://github.com/IncapacheSpark/IncapacheSpark.github.io"><b>our github</b></a>.
+            </div>
+        </div>
+        <br>
+        <img src="img/image1.svg" class="img" alt="Drawing of a tree.">
+    </section>
+    <hr>
+
+
+    <!-- ################################# ACCORDION #################################### -->
+    <div id="section1" class="margin-section">
+        <div class="panel-group" id="accordion1" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading background-color" role="tab" id="headingOne1">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <a role="button" data-parent="#accordion" data-toogle="collapse" href="#collapseOne1"
+                                   class="colored_text" aria-expanded="true" aria-controls="collapseOne1">
+                                    Assignment #1: Comparing Categories
+                                </a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="colored_text" href="assignments/1/comparison.html">More <i
+                                        class="fa-solid fa-arrow-right fa-xl colored_text"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapseOne1"  role="tabpanel" aria-labelledby="headingOne1">
+                    <div class="panel-body">
+                        In this assignment we compare tree species abundance. Click on the right arrow to visualize it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div id="section2" class="margin-section">
+        <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading background-color" role="tab" id="headingOne2">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <a role="button" data-parent="#accordion2" data-toogle="collapse" href="#collapseOne2"
+                                   class="colored_text" aria-expanded="true" aria-controls="collapseOne2">
+                                    Assignment #2: Distribution and Correlation
+                                </a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="colored_text" href="assignments/2/distribution.html">More <i
+                                        class="fa-solid fa-arrow-right fa-xl colored_text"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapseOne2"  role="tabpanel" aria-labelledby="headingOne2">
+                    <div class="panel-body">
+                        In this assignment we show distribution and correlation between different types of trees. Click on the right arrow to visualize it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section3" class="margin-section">
+        <div class="panel-group" id="accordion3" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading background-color" role="tab" id="headingOne3">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <a role="button" data-parent="#accordion3" data-toogle="collapse" href="#collapseOne3"
+                                   class="colored_text" aria-expanded="true" aria-controls="collapseOne3">
+                                    Assignment #3: Maps
+                                </a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="colored_text" href="assignments/3/maps.html">More <i
+                                        class="fa-solid fa-arrow-right fa-xl colored_text"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapseOne3"  role="tabpanel" aria-labelledby="headingOne3">
+                    <div class="panel-body">
+                        In this assignment we show some datas per neighborhood in maps. Click on the right arrow to visualize it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section4" class="margin-section">
+        <div class="panel-group" id="accordion3" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading background-color" role="tab" id="headingOne3">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <a role="button" data-parent="#accordion3" data-toogle="collapse" href="#collapseOne3"
+                                   class="colored_text" aria-expanded="true" aria-controls="collapseOne3">
+                                    Assignment #4: Timelines
+                                </a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="colored_text" href="assignments/4/timelines.html">More <i
+                                        class="fa-solid fa-arrow-right fa-xl colored_text"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapseOne3"  role="tabpanel" aria-labelledby="headingOne3">
+                    <div class="panel-body">
+                        In this assignment we will employ daily temperature time series. Click on the right arrow to visualize it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section5" class="margin-section">
+        <div class="panel-group" id="accordion3" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading background-color" role="tab" id="headingOne3">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <a role="button" data-parent="#accordion3" data-toogle="collapse" href="#collapseOne3"
+                                   class="colored_text" aria-expanded="true" aria-controls="collapseOne3">
+                                    Assignment #5: Flux
+                                </a>
+                            </div>
+                            <div class="col-sm-1">
+                                <a class="colored_text" href="assignments/5/flux.html">More <i
+                                        class="fa-solid fa-arrow-right fa-xl colored_text"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="collapseOne3"  role="tabpanel" aria-labelledby="headingOne3">
+                    <div class="panel-body">
+                        In this assignment we will show (through Sankey Alluvial diagram) the flux of the top 10 species of trees. Click on the right arrow to visualize it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+</div> <!-- chiude container -->
+
+<!-- ################################# FOOTER #################################### -->
+<footer class="text-center text-lg-start">
+    <div class="footer-top-space text-center p-3 background-color colored_text">
+        © 2022 Copyright:
+        <a class="text-dark colored_text" href="https://github.com/matte995/risiko-championship.github.io">IncApacheSpark Github</a>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

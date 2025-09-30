@@ -1,0 +1,147 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    /*margin-left: auto;
+    margin-right: auto;*/
+    margin: 0;
+    padding: 1px;
+    height:100%;
+}
+
+.title {
+    font-family: "Roboto Slab", sans-serif;
+    color: #002677;
+}
+
+.subtitle {
+    font-family: "Fira Sans", sans-serif;
+    /*font-size: 90%;*/
+    font-size: medium;
+    font-weight: lighter;
+
+}
+
+.font {
+    font-family: "Fira Sans", sans-serif !important;
+}
+
+.img-logo {
+    width: 170px;
+    height: auto;
+}
+
+.img {
+    width: 50%;
+}
+
+.left{
+    text-align: left;
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding-top: 0px;
+    text-align: center;
+    justify-content: center;
+}
+
+.background-color {
+    background-color: #002677 !important;
+}
+
+.margin-section {
+    padding-top: 1em;
+}
+
+.margin-title-section {
+    padding-top: 3em;
+}
+
+.footer-top-space {
+    margin-top: 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.colored_text {
+    color: white !important;
+}
+
+.panel-title {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+.card-img-top {
+    width: 30%;
+    height: auto;
+}
+
+.card-col-margin {
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
+
+.navbar-toggle {
+    background-color: #002677 !important;
+    border-color: white !important;
+}
+
+.navbar-toggle:focus, .navbar-toggle:hover {
+    background-color: #193b84 !important;
+}
+
+.icon-bar {
+    background-color: white !important;
+}
+
+.icon-logos{
+      font-size: xxx-large;
+      color: #002677;
+}
+.tooltip {
+    position: absolute;
+    text-align: center;
+    contain: content;
+    width: auto;
+    height: auto;
+    font: 12px sans-serif;
+    border: 0;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.75);
+    border: solid;
+    border-width: 0;
+    border-radius: 5px;
+    padding: 10px;
+    color: #ffffff;
+}
+
+.breadcrumb-pos {
+    padding-top: 4em;
+    position: fixed;
+    z-index: 1;
+}
+
+.svg-container {
+    display: inline-block;
+    width: 80%;
+    height: 100%; 
+}
+
+.waffles-pos {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.bubbles {
+    stroke-width: 1px;
+    stroke: black;
+    opacity: .8
+}
+.bubbles:hover {
+    stroke: black;
+}
