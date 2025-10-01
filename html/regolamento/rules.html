@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet"> <!-- Fira Sans & Roboto Slab fonts -->
+
+    <!-- FAVICON -->
+    <!--
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    -->
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type='text/css'>
+
+    <title>Regolamento</title>
+</head>
+
+<body>
+
+<!-- ################################# NAVBAR #################################### -->
+<nav class="navbar navbar-default background-color navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed colored_text" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img alt="Logo" src="../../img/logo.png" class="img-logo">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#section1" class="colored_text">Assignment 1</a></li>
+                <!--<li><a href="#section2" class="colored_text">Assignment 2</a></li>-->
+                <!--<li><a href="#section3" class="colored_text">Assignment 3</a></li>-->
+                <!--<li><a href="#section4" class="colored_text">Assignment 4</a></li>-->
+                <!--<li><a href="#section5" class="colored_text">Assignment 5</a></li>-->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+<nav class="breadcrumb-pos" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+    </ol>
+</nav>
+
+
+
+
+<!-- ################################# CONTAINER #################################### -->
+<div class="container center">
+    <section class="margin-title-section">
+        <h1 class="title center">Regolamento</h1>
+        <hr>
+        <hr>
+        <div class="">
+            <h2 class="title center">1. Punteggio singola partita</h2><br>
+            <div class="subtitle left">
+                <ul>
+                    <li><b>Punteggio Obiettivo:</b> punti guadagnati direttamente per il valore della carta obiettivo </li>
+                    <br>
+                    <li><b>Bonus piazzamento:</b>
+                        <ol>
+                            <li>10 punti</li>
+                            <li>7 punti</li>
+                            <li>5 punti</li>
+                            <li>3 punti</li>
+                            <li>1 punti</li>
+                            <li>0 punti</li>
+                        </ol>
+                    </li>
+                    <br>
+                    <li><b>Bonus eliminazione giocaore:</b> 5 punti</li>
+                    <li><b>Bonus obiettivo completato:</b> 10 punti</li>
+                    <li><b>Malus giocatore eliminato:</b> -5 punti</li>
+                </ul>
+            </div>
+            <hr>
+            <div>
+                <h2 class="title center">2. fattore di peso numero giocatori</h2><br>
+                <div class="subtitle left">
+                    <p><b>N = numero giocatori</b></p>
+                    <p>Qui dobbiamo decidere tra queste opzioni:
+                        <ul>
+                            <ol>
+                                <li>
+                                    <b>Lineare:</b>
+                                    <div class="subtitle center">&alpha; = N/4</div>
+                                    <p>(Esempio: 6 giocatori &rarr; &alpha; = 6/4 = 1.5)</p> 
+                                </li>
+                                <li>
+                                    <b>Radice quadrata</b> (diminuisce il guadagno marginale):
+                                    <p>raccomandata se non vuoi che le partite a molti giocatori scavalchino troppo quelle a pochi:</p>
+                                    <div class="subtitle center">&alpha; = &radic;N/4</div>
+                                    <p>(Esempio: 6 giocatori &rarr; &radic;6/4 = &radic;1.5 &asymp; 1.225)</p>
+                                </li>
+                                <li>
+                                    <b>Lineare attenuato</b> (parametrica):
+                                    <div class="subtitle center">&alpha; = 1 + &sigma; * (N/4)</div>
+                                    <p>con &sigma; piccolo (es 0.25)</p>
+                                    <p>(Esempio: &rarr; &sigma; = 0.25 e N = 6 &rarr; &alpha; = 1 + 0.25 * 2 = 1.5)</p>
+                                </li>
+                            </ol>
+                        </ul>
+                    </p>
+                </div>
+                <div>
+                <h2 class="title center">3. Calcolo punteggio finale per singola partita</h2><br>
+                <div class="subtitle left">
+                    <p><i>Punteggio Partita = (A + P + 5 * E + 8 * O + 1 * S) * &radic;(N/4)</i></p>
+                    <p>Dati:
+                        <ul>
+                            <li>A = Punteggio Obiettivo (punti obiettivo)</li>
+                            <li>P = Bonus piazzamento (da tabella sopra)</li>
+                            <li>E = Numero eliminazioni del giocatore</li>
+                            <li>O = 1 se ha completato obiettivo, 0 altrimenti</li>
+                            <li>S = Bonus sopravvivenza (0 o -5)</li>
+                            <li>N = Numero giocatori nella partita</li>
+                        </ul>
+                        <p>(adatta coefficienti 2, 5, 1 se vuoi pi`u/meno influenza)</p>
+                    </p>
+                </div>
+                <div>
+                <h2 class="title center">4. Esempio calcolo singola partita</h2><br>
+                <div class="subtitle left">
+                    <p>Partita con 6 giocatori. Un giocatore ottiene:</p>
+                    <p>Dati:
+                        <ul>
+                            <li>A = 8 (punti obiettivo)</li>
+                            <li>P = 10 (1°)</li>
+                            <li>E = 1 giocatori eliminati</li>
+                            <li>O = 1 (ha completato l’obiettivo)</li>
+                            <li>S = 0 (non eliminato)</li>
+                            <li>N = Numero giocatori nella partita</li>
+                        </ul>
+                        <p>Somma interna = 8 + 10 + 10 + 5 + 10*1 + 0 = 8 + 10 + 10 + 5 + 10 = 43</p>
+                        <p>Fattore = sqrt(6/4) 1.225</p>
+                        <p> PunteggioPartita 43 * 1.225 = 52.67 &rarr; arrotondi a 53</p>
+
+                    </p>
+                </div>
+                <div>
+                <h2 class="title center">5. Classifica generale</h2><br>
+                <div class="subtitle left">
+                    .........
+                </div>
+            </div>
+        
+        </div>
+        <br>
+    </section>
+
+</div>
