@@ -45,16 +45,26 @@
                 <img alt="Logo" src="img/logo.png" class="img-logo">
             </a>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#section1" class="colored_text">Assignment 1</a></li>
-                <!--<li><a href="#section2" class="colored_text">Assignment 2</a></li>-->
-                <!--<li><a href="#section3" class="colored_text">Assignment 3</a></li>-->
-                <!--<li><a href="#section4" class="colored_text">Assignment 4</a></li>-->
-                <!--<li><a href="#section5" class="colored_text">Assignment 5</a></li>-->
+                <!-- Dropdown -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Menù <span class="caret"></span>
+                    </a>
+                <ul class="dropdown-menu">
+                    <li><a href="html/regolamento/rules.html">Regolamento</a></li>
+                    <li><a href="html/storico/history.html">Storico</a></li>
+                    <li><a href="#">Classifica Generale</a></li>
+                    <li><a href="#">Statistiche</a></li>
+                </ul>
+                </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
+    </div>
+</nav>
+
     </div>
 </nav>
 
@@ -64,6 +74,7 @@
     </ol>
 </nav>
 
+<main>
 <!-- ################################# CONTAINER #################################### -->
 <div class="container center">
     <section class="margin-title-section">
@@ -264,7 +275,7 @@
                 <div class="card-body font">
                     <h5 class="card-title"><b>Storico</b></h5>
                     <p class="card-text"></p>
-                    <a href="charts/chart2.html" class="btn background-color colored_text">See now</a>
+                    <a href="html/storico/history.html" class="btn background-color colored_text">See now</a>
                 </div>
             </div>
         </div>
@@ -305,6 +316,7 @@
     </div>
 
 </div> <!-- chiude container -->
+</main>
 
 <!-- ################################# FOOTER #################################### -->
 <footer class="text-center text-lg-start">
