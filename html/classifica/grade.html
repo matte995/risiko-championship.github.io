@@ -73,7 +73,7 @@
                     </a>
                 <ul class="dropdown-menu">
                     <li><a href="../../html/regolamento/rules.html">Regolamento</a></li>
-                    <li><a href="#">Storico</a></li>
+                    <li><a href="../../html/storico/history.html">Storico</a></li>
                     <li><a href="#">Classifica Generale</a></li>
                     <li><a href="#">Statistiche</a></li>
                 </ul>
@@ -113,72 +113,7 @@
         </tbody>
         </table>
 
-        <script>
-// Funzione per calcolare il bonus piazzamento
-function getBonusPiazzamento(piazzamento) {
-  switch(piazzamento) {
-    case 1: return 10;
-    case 2: return 7;
-    case 3: return 5;
-    case 4: return 3;
-    case 5: return 1;
-    default: return 0;
-  }
-}
 
-// Legge il JSON con tutte le partite
-fetch('../../hystory.json')
-  .then(response => response.json())
-  .then(data => {
-    const punteggiGiocatori = {};
-
-    data.forEach(game => {
-      const N = game.giocatori.length;
-
-      game.giocatori.forEach((player, i) => {
-        const A = Number(game.punti_obiettivo[i]);
-        const P = getBonusPiazzamento(Number(game.piazzamento[i]));
-        const E = Number(game.giocatori_eliminati[i]);
-        const O = Number(game.obiettivo_completato[i]);
-        const S = Number(game.eliminato[i]);
-
-        const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * Math.sqrt(N / 4));
-
-        if (!punteggiGiocatori[player]) {
-          punteggiGiocatori[player] = { punteggioTotale: 0, partiteGiocate: 0 };
-        }
-
-        punteggiGiocatori[player].punteggioTotale += punteggioFinale;
-        punteggiGiocatori[player].partiteGiocate += 1;
-      });
-    });
-
-    // Trasforma in array e ordina per punteggio totale decrescente
-    const classificaArray = Object.keys(punteggiGiocatori).map(player => ({
-      giocatore: player,
-      partiteGiocate: punteggiGiocatori[player].partiteGiocate,
-      punteggioTotale: punteggiGiocatori[player].punteggioTotale
-    }));
-
-    classificaArray.sort((a, b) => b.punteggioTotale - a.punteggioTotale);
-
-    // Inserisce le righe nella tabella
-    const tbody = document.getElementById('classifica').querySelector('tbody');
-
-    classificaArray.forEach((giocatore, index) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${giocatore.giocatore}</td>
-        <td>${giocatore.partiteGiocate}</td>
-        <td>${giocatore.punteggioTotale}</td>
-      `;
-      tbody.appendChild(row);
-    });
-
-  })
-  .catch(err => console.error("Errore nel caricamento del JSON:", err));
-</script>
     </section>
 </div>
 
@@ -195,9 +130,7 @@ fetch('../../hystory.json')
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/js/bootstrap.min.js"></script>
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="../../js/storico/history.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../js/classifica/grade.js"></script>
 
 </body>
 </html>
