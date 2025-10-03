@@ -10,95 +10,71 @@
     console.log("Closed:", e.target.id);
   });
 });*/
+// history.js
+d3.json("../../js/storico/hystory.json").then(data => {
+  const accordion = document.getElementById("accordion");
 
-document.addEventListener("DOMContentLoaded", function () {
-  // carica d3
-  const script = document.createElement("script");
-  
-  script.src = "https://d3js.org/d3.v7.min.js";
-  document.head.appendChild(script);
+  data.forEach((game, idx) => {
+    // ---- Wrapper card ----
+    const card = document.createElement("div");
+    card.className = "card mb-3";
 
-  script.onload = function () {
-    d3.csv("../../html/storico/hystory.csv").then(function (data) {
-      console.log(data);
-      const accordion = d3.select("#accordion");
+    // ---- Header con la data ----
+    const header = document.createElement("div");
+    header.className = "card-header";
+    header.style.cursor = "pointer";
+    header.setAttribute("data-bs-toggle", "collapse");
+    header.setAttribute("data-bs-target", `#collapse${idx}`);
+    header.innerHTML = `<h5 class="mb-0">${game.data}</h5>`;
 
-      data.forEach((d, i) => {
-        // parsing delle colonne (le liste sono stringhe tipo [a,b,c])
-        console.log("Giocatori raw:", d.giocatori);
-        const players = JSON.parse(d.giocatori);
-        console.log(players);
-        const punti = JSON.parse(d.punti_obiettivo).map(Number);
-        const piazz = JSON.parse(d.piazzamento).map(Number);
-        const obiettivi = JSON.parse(d.obiettivo_completato).map(Number);
-        const eliminati = JSON.parse(d.eliminato).map(Number);
-        const giocEliminati = JSON.parse(d.giocatori_eliminati).map(Number);
+    // ---- Contenuto collassabile ----
+    const collapse = document.createElement("div");
+    collapse.id = `collapse${idx}`;
+    collapse.className = "collapse";
+    collapse.setAttribute("data-bs-parent", "#accordion");
 
-        // crea card
-        const card = accordion.append("div").attr("class", "card");
+    const body = document.createElement("div");
+    body.className = "card-body";
 
-        // header con bottone
-        const headerId = `heading${i}`;
-        const collapseId = `collapse${i}`;
+    // ---- Tabella dettagli ----
+    const table = document.createElement("table");
+    table.className = "table table-bordered table-striped";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Giocatore</th>
+          <th>Punteggio Obiettivo</th>
+          <th>Piazzamento</th>
+          <th>Obiettivo Completato</th>
+          <th>Giocatori Eliminati</th>
+          <th>Eliminato</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
 
-        const header = card.append("div")
-          .attr("class", "card-header")
-          .attr("id", headerId);
+    const tbody = table.querySelector("tbody");
 
-        header.append("h5")
-          .attr("class", "mb-0")
-          .append("button")
-          .attr("class", "btn btn-link collapsed")
-          .attr("data-toggle", "collapse")
-          .attr("data-target", `#${collapseId}`)
-          .attr("aria-expanded", "false")
-          .attr("aria-controls", collapseId)
-          .text(d.data);
-
-        // body collapsible
-        const collapse = card.append("div")
-          .attr("id", collapseId)
-          .attr("class", "collapse")
-          .attr("aria-labelledby", headerId)
-          .attr("data-parent", "#accordion");
-
-        const body = collapse.append("div").attr("class", "card-body");
-
-        // costruisci dati per tabella
-        const rows = players.map((p, idx) => ({
-          Giocatore: p,
-          "Punti Obiettivo": punti[idx],
-          Piazzamento: piazz[idx],
-          "Obiettivo Completato": obiettivi[idx],
-          "Giocatori Eliminati": giocEliminati[idx],
-          Eliminato: eliminati[idx]
-        }));
-
-        // crea tabella con d3
-        const table = body.append("table").attr("class", "table table-striped");
-        const thead = table.append("thead");
-        const tbody = table.append("tbody");
-
-        // intestazioni
-        thead.append("tr")
-          .selectAll("th")
-          .data(Object.keys(rows[0]))
-          .enter()
-          .append("th")
-          .text(d => d);
-
-        // righe
-        const tr = tbody.selectAll("tr")
-          .data(rows)
-          .enter()
-          .append("tr");
-
-        tr.selectAll("td")
-          .data(row => Object.values(row))
-          .enter()
-          .append("td")
-          .text(val => val);
-      });
+    // Popola le righe
+    game.giocatori.forEach((player, i) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${player}</td>
+        <td>${game.punti_obiettivo[i]}</td>
+        <td>${game.piazzamento[i]}</td>
+        <td>${game.obiettivo_completato[i]}</td>
+        <td>${game.giocatori_eliminati[i]}</td>
+        <td>${game.eliminato[i]}</td>
+      `;
+      tbody.appendChild(row);
     });
-  };
+
+    body.appendChild(table);
+    collapse.appendChild(body);
+
+    // monta la card
+    card.appendChild(header);
+    card.appendChild(collapse);
+    accordion.appendChild(card);
+  });
 });

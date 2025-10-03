@@ -49,6 +49,22 @@ main {
     width: auto;
 }
 
+#accordion .card-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Hover effect */
+#accordion .card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* ombra più marcata */
+  background-color: #64a8ec;         /* colore leggermente diverso */
+}
+
 
 
 .img {
