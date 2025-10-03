@@ -11,6 +11,21 @@
   });
 });*/
 // history.js
+
+function getBonusPiazzamento(pos) {
+  switch(pos) {
+    case 1: return 10;
+    case 2: return 7;
+    case 3: return 5;
+    case 4: return 3;
+    case 5: return 1;
+    case 6: return 0;
+    default: return 0;
+  }
+}
+
+
+
 d3.json("../../js/storico/hystory.json").then(data => {
   const accordion = document.getElementById("accordion");
 
@@ -48,23 +63,52 @@ d3.json("../../js/storico/hystory.json").then(data => {
           <th>Obiettivo Completato</th>
           <th>Giocatori Eliminati</th>
           <th>Eliminato</th>
+          <th>Punteggio Finale</th>
         </tr>
       </thead>
       <tbody></tbody>
     `;
-
     const tbody = table.querySelector("tbody");
 
-    // Popola le righe
-    game.giocatori.forEach((player, i) => {
+    // ---- Prepariamo i dati ordinati per piazzamento ----
+    const playersData = game.giocatori.map((player, i) => {
+      const A = Number(game.punti_obiettivo[i]);
+      const P = getBonusPiazzamento(Number(game.piazzamento[i])); //Number(game.piazzamento[i]);       // Bonus piazzamento
+      const E = Number(game.giocatori_eliminati[i]);
+      const O = Number(game.obiettivo_completato[i]);
+      const S = Number(game.eliminato[i]);
+      const N = game.giocatori.length;
+
+      const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * Math.sqrt(N / 4));
+
+      return {
+        player,
+        A,
+        P,
+        E,
+        O,
+        S,
+        punteggioFinale,
+        piazzamento: Number(game.piazzamento[i]),
+        obiettivoCompletatoText: O === 1 ? "SI" : "NO",
+        eliminatoText: S === 1 ? "SI" : "NO"
+      };
+    });
+
+    // ---- Ordina per piazzamento crescente ----
+    playersData.sort((a, b) => a.piazzamento - b.piazzamento);
+
+    // ---- Popola le righe ----
+    playersData.forEach(p => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${player}</td>
-        <td>${game.punti_obiettivo[i]}</td>
-        <td>${game.piazzamento[i]}</td>
-        <td>${game.obiettivo_completato[i]}</td>
-        <td>${game.giocatori_eliminati[i]}</td>
-        <td>${game.eliminato[i]}</td>
+        <td>${p.player}</td>
+        <td>${p.A}</td>
+        <td>${p.piazzamento}</td>
+        <td>${p.obiettivoCompletatoText}</td>
+        <td>${p.E}</td>
+        <td>${p.eliminatoText}</td>
+        <td>${p.punteggioFinale}</td>
       `;
       tbody.appendChild(row);
     });
@@ -78,3 +122,4 @@ d3.json("../../js/storico/hystory.json").then(data => {
     accordion.appendChild(card);
   });
 });
+

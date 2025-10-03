@@ -136,7 +136,7 @@
                 <div>
                 <h2 class="title center">3. Calcolo punteggio finale per singola partita</h2><br>
                 <div class="subtitle left">
-                    <p><i>Punteggio Partita = (A + P + 5 * E + 8 * O + 1 * S) * &radic;(N/4)</i></p>
+                    <p><i>Punteggio Partita = (A + P + 5 * E + 10 * O + 1 * S) * &radic;(N/4)</i></p>
                     <p>Dati:
                         <ul>
                             <li>A = Punteggio Obiettivo (punti obiettivo)</li>
@@ -162,9 +162,9 @@
                             <li>S = 0 (non eliminato)</li>
                             <li>N = Numero giocatori nella partita</li>
                         </ul>
-                        <p>Somma interna = 8 + 10 + 10 + 5 + 10*1 + 0 = 8 + 10 + 10 + 5 + 10 = 43</p>
+                        <p>Somma interna = 8 + 10 + 5*1 + 10*1 - 5*0 = 8 + 10 + 5 + 10 = 33</p>
                         <p>Fattore = sqrt(6/4) 1.225</p>
-                        <p> PunteggioPartita 43 * 1.225 = 52.67 &rarr; arrotondi a 53</p>
+                        <p> PunteggioPartita 33 * 1.225 = 40.42 &rarr; arrotondi a 40</p>
 
                     </p>
                 </div>

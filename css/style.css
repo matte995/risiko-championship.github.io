@@ -38,12 +38,7 @@ main {
     font-family: "Fira Sans", sans-serif !important;
 }
 
-/* 
-.img-logo {
-    width: 170px;
-    height: auto;
-}
-*/
+
 .img-logo {
     height: 75px;       /* regola tu la dimensione */
     width: auto;
