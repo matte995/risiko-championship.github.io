@@ -26,7 +26,7 @@ function getBonusPiazzamento(pos) {
 
 
 
-d3.json("../../js/storico/hystory.json").then(data => {
+d3.json("../../hystory.json").then(data => {
   const accordion = document.getElementById("accordion");
 
   data.forEach((game, idx) => {

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet"> <!-- Fira Sans & Roboto Slab fonts -->
+
+    <!-- FAVICON -->
+    <!--
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    -->
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type='text/css'>
+
+    <title>Classifica Generale</title>
+
+    <style>
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!-- ################################# NAVBAR #################################### -->
+<nav class="navbar navbar-default background-color navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed colored_text" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img alt="Logo" src="../../img/logo.png" class="img-logo">
+            </a>
+        </div>
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Dropdown -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Menù <span class="caret"></span>
+                    </a>
+                <ul class="dropdown-menu">
+                    <li><a href="../../html/regolamento/rules.html">Regolamento</a></li>
+                    <li><a href="#">Storico</a></li>
+                    <li><a href="#">Classifica Generale</a></li>
+                    <li><a href="#">Statistiche</a></li>
+                </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<nav class="breadcrumb-pos" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">
+      <a href="../../index.html">Home</a>
+    </li>
+    </ol>
+</nav>
+
+
+
+<main>
+<div class="container center">
+    <section class="margin-title-section">
+        <h1 class="title center">Classifica Generale</h1>
+        <hr>
+        <hr>
+        <table id="classifica">
+        <thead>
+            <tr>
+            <th>Posizione</th>
+            <th>Giocatore</th>
+            <th>Partite Giocate</th>
+            <th>Punteggio Totale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Le righe saranno generate via JavaScript -->
+        </tbody>
+        </table>
+
+        <script>
+// Funzione per calcolare il bonus piazzamento
+function getBonusPiazzamento(piazzamento) {
+  switch(piazzamento) {
+    case 1: return 10;
+    case 2: return 7;
+    case 3: return 5;
+    case 4: return 3;
+    case 5: return 1;
+    default: return 0;
+  }
+}
+
+// Legge il JSON con tutte le partite
+fetch('../../hystory.json')
+  .then(response => response.json())
+  .then(data => {
+    const punteggiGiocatori = {};
+
+    data.forEach(game => {
+      const N = game.giocatori.length;
+
+      game.giocatori.forEach((player, i) => {
+        const A = Number(game.punti_obiettivo[i]);
+        const P = getBonusPiazzamento(Number(game.piazzamento[i]));
+        const E = Number(game.giocatori_eliminati[i]);
+        const O = Number(game.obiettivo_completato[i]);
+        const S = Number(game.eliminato[i]);
+
+        const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * Math.sqrt(N / 4));
+
+        if (!punteggiGiocatori[player]) {
+          punteggiGiocatori[player] = { punteggioTotale: 0, partiteGiocate: 0 };
+        }
+
+        punteggiGiocatori[player].punteggioTotale += punteggioFinale;
+        punteggiGiocatori[player].partiteGiocate += 1;
+      });
+    });
+
+    // Trasforma in array e ordina per punteggio totale decrescente
+    const classificaArray = Object.keys(punteggiGiocatori).map(player => ({
+      giocatore: player,
+      partiteGiocate: punteggiGiocatori[player].partiteGiocate,
+      punteggioTotale: punteggiGiocatori[player].punteggioTotale
+    }));
+
+    classificaArray.sort((a, b) => b.punteggioTotale - a.punteggioTotale);
+
+    // Inserisce le righe nella tabella
+    const tbody = document.getElementById('classifica').querySelector('tbody');
+
+    classificaArray.forEach((giocatore, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${giocatore.giocatore}</td>
+        <td>${giocatore.partiteGiocate}</td>
+        <td>${giocatore.punteggioTotale}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+  })
+  .catch(err => console.error("Errore nel caricamento del JSON:", err));
+</script>
+    </section>
+</div>
+
+</main>
+
+<!-- ################################# FOOTER #################################### -->
+<footer class="text-center text-lg-start">
+    <div class="footer-top-space text-center p-3 background-color colored_text">
+        © 2025 Copyright:
+        <a class="text-dark colored_text" href="https://github.com/matte995/risiko-championship.github.io">Risiko Challenge GitHub</a>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="../../js/storico/history.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
