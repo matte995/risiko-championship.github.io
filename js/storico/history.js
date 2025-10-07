@@ -81,10 +81,6 @@ d3.json("../../hystory.json").then(data => {
 
       const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * Math.sqrt(N / 4));
 
-      console.log("player: ", player);
-      console.log("A: ", A);
-      console.log("aaa: ", Math.sqrt(N / 4))
-      console.log("bbb: ", punteggioFinale)
 
       return {
         player,
