@@ -73,13 +73,18 @@ d3.json("../../hystory.json").then(data => {
     // ---- Prepariamo i dati ordinati per piazzamento ----
     const playersData = game.giocatori.map((player, i) => {
       const A = Number(game.punti_obiettivo[i]);
-      const P = getBonusPiazzamento(Number(game.piazzamento[i])); //Number(game.piazzamento[i]);       // Bonus piazzamento
+      const P = getBonusPiazzamento(Number(game.piazzamento[i]));        // Bonus piazzamento
       const E = Number(game.giocatori_eliminati[i]);
       const O = Number(game.obiettivo_completato[i]);
       const S = Number(game.eliminato[i]);
       const N = game.giocatori.length;
 
-      const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * Math.sqrt(N / 4));
+      const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * Math.sqrt(N / 4));
+
+      console.log("player: ", player);
+      console.log("A: ", A);
+      console.log("aaa: ", Math.sqrt(N / 4))
+      console.log("bbb: ", punteggioFinale)
 
       return {
         player,
