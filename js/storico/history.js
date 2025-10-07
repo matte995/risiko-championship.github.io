@@ -49,7 +49,7 @@ d3.json("../../hystory.json").then(data => {
     collapse.setAttribute("data-bs-parent", "#accordion");
 
     const body = document.createElement("div");
-    body.className = "card-body";
+    body.className = "card-body table-responsive";
 
     // ---- Tabella dettagli ----
     const table = document.createElement("table");
