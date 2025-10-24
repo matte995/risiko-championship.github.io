@@ -14,12 +14,11 @@
 
 function getBonusPiazzamento(pos) {
   switch(pos) {
-    case 1: return 10;
-    case 2: return 7;
-    case 3: return 5;
-    case 4: return 3;
-    case 5: return 1;
-    case 6: return 0;
+    case 1: return 20;
+    case 2: return 15;
+    case 3: return 10;
+    case 4: return 5;
+    case 5: return 0;
     default: return 0;
   }
 }
@@ -79,7 +78,7 @@ d3.json("../../hystory.json").then(data => {
       const S = Number(game.eliminato[i]);
       const N = game.giocatori.length;
 
-      const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * Math.sqrt(N / 4));
+      const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * (N / 4));
 
 
       return {

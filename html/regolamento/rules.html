@@ -90,11 +90,10 @@
                     <br>
                     <li><b>Bonus piazzamento:</b>
                         <ol>
+                            <li>20 punti</li>
+                            <li>15 punti</li>
                             <li>10 punti</li>
-                            <li>7 punti</li>
                             <li>5 punti</li>
-                            <li>3 punti</li>
-                            <li>1 punti</li>
                             <li>0 punti</li>
                         </ol>
                     </li>
@@ -109,34 +108,13 @@
                 <h2 class="title center">2. fattore di peso numero giocatori</h2><br>
                 <div class="subtitle left">
                     <p><b>N = numero giocatori</b></p>
-                    <p>Qui dobbiamo decidere tra queste opzioni:
-                        <ul>
-                            <ol>
-                                <li>
-                                    <b>Lineare:</b>
-                                    <div class="subtitle center">&alpha; = N/4</div>
-                                    <p>(Esempio: 6 giocatori &rarr; &alpha; = 6/4 = 1.5)</p> 
-                                </li>
-                                <li>
-                                    <b>Radice quadrata</b> (diminuisce il guadagno marginale):
-                                    <p>raccomandata se non vuoi che le partite a molti giocatori scavalchino troppo quelle a pochi:</p>
-                                    <div class="subtitle center">&alpha; = &radic;N/4</div>
-                                    <p>(Esempio: 6 giocatori &rarr; &radic;6/4 = &radic;1.5 &asymp; 1.225)</p>
-                                </li>
-                                <li>
-                                    <b>Lineare attenuato</b> (parametrica):
-                                    <div class="subtitle center">&alpha; = 1 + &sigma; * (N/4)</div>
-                                    <p>con &sigma; piccolo (es 0.25)</p>
-                                    <p>(Esempio: &rarr; &sigma; = 0.25 e N = 6 &rarr; &alpha; = 1 + 0.25 * 2 = 1.5)</p>
-                                </li>
-                            </ol>
-                        </ul>
-                    </p>
+                    <div class="subtitle center">&alpha; = N/4</div>
+                    <p>(Esempio: 5 giocatori &rarr; &alpha; = 5/4 = 1.25)</p>
                 </div>
                 <div>
                 <h2 class="title center">3. Calcolo punteggio finale per singola partita</h2><br>
                 <div class="subtitle left">
-                    <p><i>Punteggio Partita = (A + P + 5 * E + 10 * O + 1 * S) * &radic;(N/4)</i></p>
+                    <p><i>Punteggio Partita = (A + P + 5 * E + 10 * O + 1 * S) * (N/4)</i></p>
                     <p>Dati:
                         <ul>
                             <li>A = Punteggio Obiettivo (punti obiettivo)</li>
@@ -146,7 +124,7 @@
                             <li>S = Bonus sopravvivenza (0 o -5)</li>
                             <li>N = Numero giocatori nella partita</li>
                         </ul>
-                        <p>(adatta coefficienti 2, 5, 1 se vuoi pi`u/meno influenza)</p>
+                
                     </p>
                 </div>
                 <div>
@@ -156,23 +134,33 @@
                     <p>Dati:
                         <ul>
                             <li>A = 8 (punti obiettivo)</li>
-                            <li>P = 10 (1°)</li>
+                            <li>P = 20 (1°)</li>
                             <li>E = 1 giocatori eliminati</li>
                             <li>O = 1 (ha completato l’obiettivo)</li>
                             <li>S = 0 (non eliminato)</li>
                             <li>N = Numero giocatori nella partita</li>
                         </ul>
-                        <p>Somma interna = 8 + 10 + 5*1 + 10*1 - 5*0 = 8 + 10 + 5 + 10 = 33</p>
-                        <p>Fattore = sqrt(6/4) 1.225</p>
-                        <p> PunteggioPartita 33 * 1.225 = 40.42 &rarr; arrotondi a 40</p>
+                        <p>Somma interna = 8 + 20 + 5*1 + 10*1 - 5*0 = 8 + 20 + 5 + 10 = 43</p>
+                        <p>Fattore = 5/4 = 1.25</p>
+                        <p> PunteggioPartita 33 * 1.25 = 41.25 &rarr; arrotondi a 41</p>
 
                     </p>
                 </div>
                 <div>
                 <h2 class="title center">5. Classifica generale</h2><br>
                 <div class="subtitle left">
-                    .........
+                    Il calcolo della classifica generale è data dalla somma di ogni singola partita.
                 </div>
+
+                <h2 class="title center">6. Lancio dei dadi</h2><br>
+                <div class="subtitle left">
+                   <ul>
+                        <li>I dadi devono rotolare cazzo!!</li>
+                        <li>Se anche solo un dado viene lanciato fuori, tutti i dadi devono essere ritirati.</li>
+                        
+                    </ul>
+                </div>
+
             </div>
         
         </div>

@@ -1,11 +1,11 @@
 // Funzione per calcolare il bonus piazzamento
 function getBonusPiazzamento(piazzamento) {
   switch(piazzamento) {
-    case 1: return 10;
-    case 2: return 7;
-    case 3: return 5;
-    case 4: return 3;
-    case 5: return 1;
+    case 1: return 20;
+    case 2: return 15;
+    case 3: return 10;
+    case 4: return 5;
+    case 5: return 0;
     default: return 0;
   }
 }
@@ -27,7 +27,7 @@ function caricaClassifica() {
           const O = Number(game.obiettivo_completato[i]);
           const S = Number(game.eliminato[i]);
 
-          const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * Math.sqrt(N / 4));
+          const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * (N / 4));
 
           if (!punteggiGiocatori[player]) {
             punteggiGiocatori[player] = { punteggioTotale: 0, partiteGiocate: 0 };
