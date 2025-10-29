@@ -25,7 +25,7 @@ function getBonusPiazzamento(pos) {
 
 
 
-d3.json("../../hystory.json").then(data => {
+d3.json("../../history.json").then(data => {
   const accordion = document.getElementById("accordion");
 
   data.forEach((game, idx) => {
@@ -79,6 +79,7 @@ d3.json("../../hystory.json").then(data => {
       const N = game.giocatori.length;
 
       const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * (N / 4));
+      
 
 
       return {

@@ -12,7 +12,7 @@ function getBonusPiazzamento(piazzamento) {
 
 // Funzione principale per costruire la classifica
 function caricaClassifica() {
-  fetch('../../hystory.json')
+  fetch('../../history.json')
     .then(response => response.json())
     .then(data => {
       const punteggiGiocatori = {};
@@ -27,7 +27,7 @@ function caricaClassifica() {
           const O = Number(game.obiettivo_completato[i]);
           const S = Number(game.eliminato[i]);
 
-          const punteggioFinale = Math.round((A + P + 5 * E + 10 * O + 1 * S) * (N / 4));
+          const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * (N / 4));
 
           if (!punteggiGiocatori[player]) {
             punteggiGiocatori[player] = { punteggioTotale: 0, partiteGiocate: 0 };
