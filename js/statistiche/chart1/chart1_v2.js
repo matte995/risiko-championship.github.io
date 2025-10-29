@@ -33,7 +33,7 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
 
   const color = d3.scaleOrdinal()
     .domain(players.map(d => d.Giocatore))
-    .range(d3.schemeSet2);
+    .range(d3.schemePaired);
 
   // Extract the unique game dates
   const gameDates = Array.from(new Set(data.map(d => +d.Data))).map(d => new Date(d));
@@ -91,8 +91,31 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
         });
   });
 
-  // Legend (right side)
-  const legend = svg.selectAll(".legend")
+    // Calcola l'ultimo punteggio per ogni giocatore
+  const latestDate = d3.max(data, d => d.Data);
+  const latestScores = data.filter(d => d.Data.getTime() === latestDate.getTime());
+
+  // Ordina per punti decrescenti per determinare la posizione in classifica
+  const ranking = latestScores
+    .sort((a, b) => d3.descending(a.Punti_totali, b.Punti_totali))
+    .map((d, i) => ({ Giocatore: d.Giocatore, Posizione: i + 1, Punti_totali: d.Punti_totali }));
+
+  // Crea una mappa (giocatore → posizione e punti)
+  const playerInfo = new Map(ranking.map(d => [d.Giocatore, d]));
+
+  const legendTooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("background", "rgba(63, 83, 197, 0.9)")
+    .style("color", "white")
+    .style("padding", "6px 10px")
+    .style("border-radius", "6px")
+    .style("font-size", "13px")
+    .style("pointer-events", "none")
+    .style("opacity", 0);
+
+const legend = svg.selectAll(".legend")
     .data(players)
     .join("g")
       .attr("class", "legend-item")
@@ -100,17 +123,37 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
       .on("mouseover", (event, d) => {
         d3.selectAll(".line, .dot").style("opacity", 0.1);
         d3.selectAll(`.line-${d.Giocatore}, .dot-${d.Giocatore}`).style("opacity", 1);
+
+        const info = playerInfo.get(d.Giocatore);
+        if (info) {
+          legendTooltip.transition().duration(200).style("opacity", 1);
+          legendTooltip.html(`
+            <strong>${d.Giocatore}</strong><br>
+            Posizione: #${info.Posizione}<br>
+            Punti totali: ${info.Punti_totali}
+          `)
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 28) + "px");
+        }
+      })
+      .on("mousemove", (event) => {
+        legendTooltip
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 28) + "px");
       })
       .on("mouseout", () => {
         d3.selectAll(".line").style("opacity", 0.8);
         d3.selectAll(".dot").style("opacity", 0.9);
+        legendTooltip.transition().duration(200).style("opacity", 0);
       });
 
+  // Rettangoli della legenda
   legend.append("rect")
     .attr("width", 12)
     .attr("height", 12)
     .attr("fill", d => color(d.Giocatore));
 
+  // Testo accanto
   legend.append("text")
     .attr("x", 18)
     .attr("y", 10)
