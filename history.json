@@ -17,11 +17,20 @@
     "giocatori_eliminati": [0, 0, 0, 0, 0],
     "eliminato": [0, 0, 0, 0, 0]
   },
-    {
+  {
     "data": "2025-10-30",
     "giocatori": ["Sacha", "Matte", "Riky", "Ale", "Lozzio"],
     "punti_obiettivo": [9, 26, 48, 10, 29],
     "piazzamento": [5, 3, 1, 4, 2],
+    "obiettivo_completato": [0, 0, 0, 0, 0],
+    "giocatori_eliminati": [0, 0, 0, 0, 0],
+    "eliminato": [0, 0, 0, 0, 0]
+  },
+  {
+    "data": "2025-11-3",
+    "giocatori": ["Sacha", "Matte", "Riky", "Ale", "Lozzio"],
+    "punti_obiettivo": [13, 32, 18, 26, 36],
+    "piazzamento": [5, 2, 4, 3, 1],
     "obiettivo_completato": [0, 0, 0, 0, 0],
     "giocatori_eliminati": [0, 0, 0, 0, 0],
     "eliminato": [0, 0, 0, 0, 0]
