@@ -1,4 +1,4 @@
-// trend_chart.js
+// objective_points_chart.js
 const margin = { top: 40, right: 150, bottom: 40, left: 50 },
       width = 700 - margin.left - margin.right,
       height = 450 - margin.top - margin.bottom;
@@ -13,38 +13,39 @@ const svg = d3.select("#my_dataviz")
 const tooltip = d3.select("#tooltip");
 
 d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
-  // Parse and clean data
+  // Parsing
   data.forEach(d => {
     d.Data = new Date(d.Data);
-    d.Punti_totali = +d.Punti_totali;
+    d.Punti_totali = d.Punti_obiettivo;
   });
 
-  // Group by player
+
+  // Raggruppa per giocatore
   const players = Array.from(d3.group(data, d => d.Giocatore), ([key, values]) => ({ Giocatore: key, values }));
 
-  // Scales
+  // Scale
   const x = d3.scaleTime()
     .domain(d3.extent(data, d => d.Data))
     .range([0, width]);
 
   const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.Punti_totali) * 1.1])
+    .domain([0, d3.max(data, d => d.Punti_obiettivo) * 1.1])
     .range([height, 0]);
 
   const color = d3.scaleOrdinal()
     .domain(players.map(d => d.Giocatore))
-    .range(d3.schemePaired);
+    .range(d3.schemeTableau10);
 
-  // Extract the unique game dates
+  // Date uniche (una per partita)
   const gameDates = Array.from(new Set(data.map(d => +d.Data))).map(d => new Date(d));
 
-  // X axis showing only game dates
+  // Assi
   svg.append("g")
     .attr("transform", `translate(0,${height})`)
     .call(
       d3.axisBottom(x)
-        .tickValues(gameDates) // use only actual game dates
-        .tickFormat(d3.timeFormat("%b %d")) // format as "Oct 28", etc.
+        .tickValues(gameDates)
+        .tickFormat(d3.timeFormat("%b %d"))
     );
 
   svg.append("g").call(d3.axisLeft(y));
@@ -54,7 +55,7 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
     .x(d => x(d.Data))
     .y(d => y(d.Punti_totali));
 
-  // Lines
+  // Linee
   svg.selectAll(".line")
     .data(players)
     .join("path")
@@ -63,19 +64,19 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
       .attr("fill", "none")
       .attr("d", d => line(d.values));
 
-  // Dots
+  // Punti
   players.forEach(p => {
     svg.selectAll(`.dot-${p.Giocatore}`)
       .data(p.values)
       .join("circle")
         .attr("class", `dot dot-${p.Giocatore}`)
         .attr("cx", d => x(d.Data))
-        .attr("cy", d => y(d.Punti_totali))
+        .attr("cy", d => y(d.Punti_obiettivo))
         .attr("r", 4)
         .attr("fill", color(p.Giocatore))
         .on("mouseover", (event, d) => {
           tooltip.style("opacity", 1)
-            .html(`<b>${d.Giocatore}</b><br>${d3.timeFormat("%b %d")(d.Data)}<br>${d.Punti_totali} punti`)
+            .html(`<b>${d.Giocatore}</b><br>${d3.timeFormat("%b %d")(d.Data)}<br>${d.Punti_obiettivo} punti obiettivo`)
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 28) + "px");
           d3.selectAll(".line").style("opacity", 0.2);
@@ -91,69 +92,46 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
         });
   });
 
-    // Calcola l'ultimo punteggio per ogni giocatore
-  const latestDate = d3.max(data, d => d.Data);
-  const latestScores = data.filter(d => d.Data.getTime() === latestDate.getTime());
+  //compute average points for legend display
+  const playerAverages = players.map(p => {
+    const totalPoints = d3.mean(p.values, d => d.Punti_totali);
+    return { Giocatore: p.Giocatore, Punti_totali: totalPoints.toFixed(2)};
+  });
 
-  // Ordina per punti decrescenti per determinare la posizione in classifica
-  const ranking = latestScores
-    .sort((a, b) => d3.descending(a.Punti_totali, b.Punti_totali))
-    .map((d, i) => ({ Giocatore: d.Giocatore, Posizione: i + 1, Punti_totali: d.Punti_totali }));
+  console.log(playerAverages);
 
-  // Crea una mappa (giocatore → posizione e punti)
-  const playerInfo = new Map(ranking.map(d => [d.Giocatore, d]));
-
-  const legendTooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("background", "rgba(63, 83, 197, 0.9)")
-    .style("color", "white")
-    .style("padding", "6px 10px")
-    .style("border-radius", "6px")
-    .style("font-size", "13px")
-    .style("pointer-events", "none")
-    .style("opacity", 0);
-
-const legend = svg.selectAll(".legend")
+  // Legenda
+  const legend = svg.selectAll(".legend")
     .data(players)
     .join("g")
       .attr("class", "legend-item")
       .attr("transform", (d, i) => `translate(${width + 20}, ${i * 25})`)
       .on("mouseover", (event, d) => {
-        d3.selectAll(".line, .dot").style("opacity", 0.1);
-        d3.selectAll(`.line-${d.Giocatore}, .dot-${d.Giocatore}`).style("opacity", 1);
-
-        const info = playerInfo.get(d.Giocatore);
-        if (info) {
-          legendTooltip.transition().duration(200).style("opacity", 1);
-          legendTooltip.html(`
+        tooltip.style("opacity", 1)
+        .html(`
             <strong>${d.Giocatore}</strong><br>
-            Posizione: #${info.Posizione}<br>
-            Punti totali: ${info.Punti_totali}
+            Avg punti: ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_totali
+            }
           `)
           .style("left", (event.pageX + 10) + "px")
           .style("top", (event.pageY - 28) + "px");
-        }
-      })
-      .on("mousemove", (event) => {
-        legendTooltip
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 28) + "px");
+        d3.selectAll(".line").style("opacity", 0.2);
+          d3.selectAll(".dot").style("opacity", 0.2);
+          d3.selectAll(`.line-${d.Giocatore}, .dot-${d.Giocatore}`)
+          .style("opacity", 1)
+          .attr("r", 5);
       })
       .on("mouseout", () => {
-        d3.selectAll(".line").style("opacity", 0.8);
-        d3.selectAll(".dot").style("opacity", 0.9);
-        legendTooltip.transition().duration(200).style("opacity", 0);
+        tooltip.style("opacity", 0);
+          d3.selectAll(".line").style("opacity", 0.8);
+          d3.selectAll(".dot").style("opacity", 0.9).attr("r", 4);
       });
 
-  // Rettangoli della legenda
   legend.append("rect")
     .attr("width", 12)
     .attr("height", 12)
     .attr("fill", d => color(d.Giocatore));
 
-  // Testo accanto
   legend.append("text")
     .attr("x", 18)
     .attr("y", 10)

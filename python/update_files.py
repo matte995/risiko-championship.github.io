@@ -53,24 +53,25 @@ def aggiorna_classifica(json_path, csv_path):
             punteggio_totale = compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato,  N=len(partita['giocatori']))
             #print("Punteggio totale:", punteggio_totale)
             # Aggiorna punteggio cumulativo
-            punteggi_cumulativi[giocatore] = punteggi_cumulativi.get(giocatore, 0) + round(punteggio_totale, 0)
+            punteggi_cumulativi[giocatore] = punteggi_cumulativi.get(giocatore, 0) + int(round(punteggio_totale, 0))
             if giocatore == "Riky":
                 print("data: ", data)# Registra record per CSV
                 print("punti: ", punti)
                 print("piazzamento: ", piazzamento)
                 
                 print("punti totali: ", punteggio_totale)
-                print("punteggio totale arrotondato: ", round(punteggio_totale, 0))
+                print("punteggio totale arrotondato: ", int(round(punteggio_totale, 0)))
                 print("punteggio cumulativo: ", punteggi_cumulativi[giocatore])
             records.append({
                 'Data': data,
                 'Giocatore': giocatore,
-                'Punti_totali': punteggi_cumulativi[giocatore]
+                'Punti_totali': punteggi_cumulativi[giocatore],
+                'Punti_obiettivo': punti
             })
 
     # 5. Scrive il CSV
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=['Data', 'Giocatore', 'Punti_totali'])
+        writer = csv.DictWriter(f, fieldnames=['Data', 'Giocatore', 'Punti_totali', 'Punti_obiettivo'])
         writer.writeheader()
         writer.writerows(records)
 
@@ -93,7 +94,7 @@ def main():
     '''
 
     ######################################## UPDATE GENERAL TREND CSV #################################
-    general_trend_csv_path = "../js/statistiche/chart1/general_trend.csv"
+    general_trend_csv_path = "../js/statistiche/general_trend.csv"
     aggiorna_classifica(json_path, general_trend_csv_path)
 
 

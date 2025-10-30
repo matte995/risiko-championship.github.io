@@ -21,15 +21,45 @@
     -->
 
     <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type='text/css'>
 
-    <title>Statistiche</title>
+    <title>Trend punti obiettivo</title>
+
+    <style>
+    body {
+      font-family: sans-serif;
+    }
+    .line {
+      fill: none;
+      stroke-width: 2.5px;
+      opacity: 0.8;
+      transition: all 0.2s;
+    }
+    .dot {
+      stroke: white;
+      stroke-width: 1.5px;
+      opacity: 0.9;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: absolute;
+      background: rgb(63, 83, 197);
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      pointer-events: none;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+    }
+    .legend-item {
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
-
 
 <!-- ################################# NAVBAR #################################### -->
 <nav class="navbar navbar-default background-color navbar-fixed-top">
@@ -55,64 +85,40 @@
                         Menù <span class="caret"></span>
                     </a>
                 <ul class="dropdown-menu">
-                    <li><a href="../../html/regolamento/rules.html">Regolamento</a></li>
-                    <li><a href="../../html/storico/history.html">Storico</a></li>
-                    <li><a href="../../html/classifica/grade.html">Classifica Generale</a></li>
-                    <li><a href="#">Statistiche</a></li>
+                    <li><a href="../../regolamento/rules.html">Regolamento</a></li>
+                    <li><a href="../../storico/history.html">Storico</a></li>
+                    <li><a href="../../classifica/grade.html">Classifica Generale</a></li>
+                    <li><a href="../../statistiche/stats.html">Statistiche</a></li>
                 </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+    </div>
+</nav>
 
 <nav class="breadcrumb-pos" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item active">
-      <a href="../../index.html">Home</a>
+    <a href="../../../index.html">Home</a>
     </li>
     </ol>
 </nav>
 
-
-
 <main>
-
+<!-- ################################# CONTAINER #################################### -->
 <div class="container center">
-    <section class="margin-title-section">
-        <h1 class="title center">Statistiche</h1>
-        <hr>
-        <hr>
-     </section>
-    <!-- ################################# ACCORDION #################################### -->
-    <div class="row">
-        <div class="col-sm-2 card-col-margin">
-            <div class="card" id="card1">
-                <img src="../../img/charBar.jpg" class="card-img-top" alt="...">
-
-                <div class="card-body font">
-                    <h5 class="card-title"><b>Trend classifica generale</b></h5>
-                    <p class="card-text"></p>
-                    <a href="charts\chart1.html" class="btn background-color colored_text">See now</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-2 card-col-margin">
-            <div class="card" id="card2">
-                <img src="../../img/charBar.jpg" class="card-img-top" alt="...">
-
-                <div class="card-body font">
-                    <h5 class="card-title"><b>Trend punti obiettivo</b></h5>
-                    <p class="card-text"></p>
-                    <a href="charts\chart2.html" class="btn background-color colored_text">See now</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div> <!-- chiude container -->
+    <h1 class="title margin-title-section">Trend punti obiettivo</h1>
+    <hr>
+    <h2 class="subtitle center">
+        Grafico che mostra per ogni giornata i punti obiettivo di ciascun giocatore.
+        <br>
+    </h2>
+    <hr>
+    <div id="my_dataviz"></div>
+  <div id="tooltip" class="tooltip" style="opacity:0"></div>
+</div>
 </main>
 
 <!-- ################################# FOOTER #################################### -->
@@ -127,7 +133,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/js/bootstrap.min.js"></script>
 <script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="../../js/statistiche/stats.js"></script>
+<script src="../../../js/statistiche/chart2/chart2.js"></script>
 
 </body>
 </html>
