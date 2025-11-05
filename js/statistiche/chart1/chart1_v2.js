@@ -22,10 +22,13 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
   // Group by player
   const players = Array.from(d3.group(data, d => d.Giocatore), ([key, values]) => ({ Giocatore: key, values }));
 
-  // Scales
-  const x = d3.scaleTime()
-    .domain(d3.extent(data, d => d.Data))
-    .range([0, width]);
+  const dates = Array.from(new Set(data.map(d => d.Data))).sort(d3.ascending);
+
+  // Point scale: equal spacing
+  const x = d3.scalePoint()
+    .domain(dates)
+    .range([0, width])
+    .padding(0.5);
 
   const y = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.Punti_totali) * 1.1])

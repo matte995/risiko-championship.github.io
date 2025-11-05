@@ -16,17 +16,20 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
   // Parsing
   data.forEach(d => {
     d.Data = new Date(d.Data);
-    d.Punti_totali = d.Punti_obiettivo;
+    d.Punti_obiettivo = +d.Punti_obiettivo;
   });
 
 
   // Raggruppa per giocatore
   const players = Array.from(d3.group(data, d => d.Giocatore), ([key, values]) => ({ Giocatore: key, values }));
 
-  // Scale
-  const x = d3.scaleTime()
-    .domain(d3.extent(data, d => d.Data))
-    .range([0, width]);
+  const dates = Array.from(new Set(data.map(d => d.Data))).sort(d3.ascending);
+
+  // Point scale: equal spacing
+  const x = d3.scalePoint()
+    .domain(dates)
+    .range([0, width])
+    .padding(0.5);
 
   const y = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.Punti_obiettivo) * 1.1])
@@ -53,7 +56,7 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
   // Line generator
   const line = d3.line()
     .x(d => x(d.Data))
-    .y(d => y(d.Punti_totali));
+    .y(d => y(d.Punti_obiettivo));
 
   // Linee
   svg.selectAll(".line")
@@ -94,8 +97,8 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
 
   //compute average points for legend display
   const playerAverages = players.map(p => {
-    const totalPoints = d3.mean(p.values, d => d.Punti_totali);
-    return { Giocatore: p.Giocatore, Punti_totali: totalPoints.toFixed(2)};
+    const totalPoints = d3.mean(p.values, d => d.Punti_obiettivo);
+    return { Giocatore: p.Giocatore, Punti_obiettivo: totalPoints.toFixed(2)};
   });
 
   console.log(playerAverages);
@@ -110,7 +113,7 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
         tooltip.style("opacity", 1)
         .html(`
             <strong>${d.Giocatore}</strong><br>
-            Avg punti: ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_totali
+            Avg punti: ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo
             }
           `)
           .style("left", (event.pageX + 10) + "px")
