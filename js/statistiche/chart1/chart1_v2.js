@@ -118,7 +118,7 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
     .style("pointer-events", "none")
     .style("opacity", 0);
 
-const legend = svg.selectAll(".legend")
+  const legend = svg.selectAll(".legend")
     .data(players)
     .join("g")
       .attr("class", "legend-item")
@@ -128,6 +128,7 @@ const legend = svg.selectAll(".legend")
         d3.selectAll(`.line-${d.Giocatore}, .dot-${d.Giocatore}`).style("opacity", 1);
 
         const info = playerInfo.get(d.Giocatore);
+        console.log(d.Giocatore, info);
         if (info) {
           legendTooltip.transition().duration(200).style("opacity", 1);
           legendTooltip.html(`
