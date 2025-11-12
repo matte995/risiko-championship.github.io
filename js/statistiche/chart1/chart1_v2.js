@@ -28,7 +28,7 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
   // Point scale: equal spacing
   const x = d3.scalePoint()
     .domain(dates)
-    .range([0, width])per o
+    .range([0, width])
     .padding(0.5);
 
   const y = d3.scaleLinear()

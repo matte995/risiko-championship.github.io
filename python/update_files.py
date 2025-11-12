@@ -33,7 +33,7 @@ BONUS_PIAZZAMENTO = {1: 20,
 
 def compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=5):
     punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (5 * giocatori_eliminati) + (10 * obiettivo_compleatato) + ((-5) * eliminato)) * (N / 4));
-    
+    print("Punteggio calcolato:", punteggioFinale)
     return punteggioFinale 
 
 def aggiorna_classifica(json_path, csv_path):
