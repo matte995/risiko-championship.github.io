@@ -1,4 +1,5 @@
 // trend_chart.js
+
 const margin = { top: 40, right: 150, bottom: 40, left: 50 },
       width = 700 - margin.left - margin.right,
       height = 450 - margin.top - margin.bottom;
@@ -27,7 +28,7 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
   // Point scale: equal spacing
   const x = d3.scalePoint()
     .domain(dates)
-    .range([0, width])
+    .range([0, width])per o
     .padding(0.5);
 
   const y = d3.scaleLinear()
@@ -164,3 +165,6 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
     .text(d => d.Giocatore)
     .style("font-size", "13px");
 });
+
+
+
