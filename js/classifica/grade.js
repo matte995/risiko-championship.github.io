@@ -27,7 +27,7 @@ function caricaClassifica() {
           const O = Number(game.obiettivo_completato[i]);
           const S = Number(game.eliminato[i]);
 
-          const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * (N / 4));
+          const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) - (5 * S)) * (N / 4));
 
           if (!punteggiGiocatori[player]) {
             punteggiGiocatori[player] = {
@@ -48,14 +48,14 @@ function caricaClassifica() {
         ...Object.values(punteggiGiocatori).map(p => p.partiteGiocate)
       );
 
-      console.log("Minimo numero di partite giocate:", minPartite);
+      //console.log("Minimo numero di partite giocate:", minPartite);
 
       // Calcola il punteggio totale 2 (solo migliori partite)
       Object.values(punteggiGiocatori).forEach(gioc => {
         const migliori = [...gioc.punteggi].sort((a, b) => b - a).slice(0, minPartite);
-        console.log("Migliori punteggi per", gioc, ":", migliori);
-        gioc.punteggioTotale2 = migliori.reduce((acc, val) => acc + val, 0);
-        console.log("Punteggio Totale 2 calcolato:", gioc.punteggioTotale2);
+        //console.log("Migliori punteggi per", gioc, ":", migliori);
+        gioc.punteggioTotale2 = migliori.reduce((acc, val) => acc + val, 0);                         //Punteggio Totale 2 è il punteggio con le partite scartate
+        //console.log("Punteggio Totale 2 calcolato:", gioc.punteggioTotale2);
       });
 
 
@@ -84,7 +84,7 @@ function caricaClassifica() {
       }
       */
       tbody.innerHTML = ''; // pulizia
-      
+      /*
       classificaArray.forEach((giocatore, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -92,6 +92,15 @@ function caricaClassifica() {
           <td>${giocatore.giocatore}</td>
           <td>${giocatore.partiteGiocate}</td>
           <td>${giocatore.punteggioTotale}</td>
+          <td>${giocatore.punteggioTotale2}</td>
+        `;
+        */
+       classificaArray.forEach((giocatore, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${giocatore.giocatore}</td>
+          <td>${giocatore.partiteGiocate}</td>
           <td>${giocatore.punteggioTotale2}</td>
         `;
         tbody.appendChild(row);

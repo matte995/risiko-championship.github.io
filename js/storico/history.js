@@ -78,7 +78,7 @@ d3.json("../../history.json").then(data => {
       const S = Number(game.eliminato[i]);
       const N = game.giocatori.length;
 
-      const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) + (1 * S)) * (N / 4));
+      const punteggioFinale = Math.round((A + P + (5 * E) + (10 * O) - (5 * S)) * (N / 4));
       
 
 
