@@ -13,7 +13,7 @@ const svg = d3.select("#my_dataviz")
 
 const tooltip = d3.select("#tooltip");
 
-d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
+d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
   // Parse and clean data
   data.forEach(d => {
     d.Data = new Date(d.Data);
@@ -95,17 +95,28 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
         });
   });
 
-    // Calcola l'ultimo punteggio per ogni giocatore
-  const latestDate = d3.max(data, d => d.Data);
-  const latestScores = data.filter(d => d.Data.getTime() === latestDate.getTime());
+    // Trova l'ultimo punteggio disponibile per ogni giocatore
+  const latestByPlayer = players.map(p => {
+    const last = p.values.reduce((a, b) => (a.Data > b.Data ? a : b));
+    return { Giocatore: p.Giocatore, ...last };
+  });
 
-  // Ordina per punti decrescenti per determinare la posizione in classifica
-  const ranking = latestScores
+
+  // Ordina per punti decrescenti e assegna la posizione
+  const ranking = latestByPlayer
     .sort((a, b) => d3.descending(a.Punti_totali, b.Punti_totali))
-    .map((d, i) => ({ Giocatore: d.Giocatore, Posizione: i + 1, Punti_totali: d.Punti_totali }));
+    .map((d, i) => ({
+      Giocatore: d.Giocatore,
+      Posizione: i + 1,
+      Punti_totali: d.Punti_totali
+    }));
 
-  // Crea una mappa (giocatore → posizione e punti)
+  // Crea la mappa finale
   const playerInfo = new Map(ranking.map(d => [d.Giocatore, d]));
+
+  console.log("Ranking:", ranking);
+
+  console.log("Player Info:", playerInfo);
 
   const legendTooltip = d3.select("body")
     .append("div")
@@ -129,14 +140,16 @@ d3.csv("../../../js/statistiche/general_trend.csv").then(data => {
         d3.selectAll(`.line-${d.Giocatore}, .dot-${d.Giocatore}`).style("opacity", 1);
 
         const info = playerInfo.get(d.Giocatore);
-        console.log(d.Giocatore, info);
+
         if (info) {
           legendTooltip.transition().duration(200).style("opacity", 1);
+          
+          
           legendTooltip.html(`
-            <strong>${d.Giocatore}</strong><br>
-            Posizione: #${info.Posizione}<br>
-            Punti totali: ${info.Punti_totali}
-          `)
+              <strong>${d.Giocatore}</strong><br>
+              Posizione: #${info.Posizione}<br>
+              Punti totali: ${info.Punti_totali}<br>
+            `)
           .style("left", (event.pageX + 10) + "px")
           .style("top", (event.pageY - 28) + "px");
         }
