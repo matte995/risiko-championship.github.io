@@ -52,7 +52,17 @@
     "obiettivo_completato": [0, 0, 0, 0],
     "giocatori_eliminati": [1, 0, 0, 0],
     "eliminato": [0, 0, 1, 0]
+  },
+  {
+    "data": "2025-11-20",
+    "giocatori": ["Sacha", "Matte", "Riky", "Ale", "Lozzio"],
+    "punti_obiettivo": [25, 39, 15, 26, 41],
+    "piazzamento": [4, 2, 5, 3, 1],
+    "obiettivo_completato": [0, 0, 0, 0, 0],
+    "giocatori_eliminati": [0, 0, 0, 0, 0],
+    "eliminato": [0, 0, 0, 0, 0]
   }
+
 
 
 ]

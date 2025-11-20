@@ -126,15 +126,14 @@ def update_obiective_points(json_path, csv_path):
     # Prima passata: calcola il punteggio di ogni singola partita
     for partita in partite:
         data = partita['data']
-        for giocatore, punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato in zip(partita['giocatori'],
-                                                                                                        partita['punti_obiettivo'],
-                                                                                                        partita['piazzamento'],
-                                                                                                        partita['obiettivo_completato'],
-                                                                                                        partita['giocatori_eliminati'],
-                                                                                                        partita['eliminato']
-                                                                                                    ):
-            #punti_match = compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=len(partita['giocatori']))
-
+        for giocatore, punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato in zip(
+            partita['giocatori'],
+            partita['punti_obiettivo'],
+            partita['piazzamento'],
+            partita['obiettivo_completato'],
+            partita['giocatori_eliminati'],
+            partita['eliminato']
+        ):
             if giocatore not in player_matches:
                 player_matches[giocatore] = []
             player_matches[giocatore].append({
@@ -145,16 +144,10 @@ def update_obiective_points(json_path, csv_path):
     min_partite = min(len(matches) for matches in player_matches.values())
     print(f"Numero minimo di partite disputate: {min_partite}")
 
-
     records = []
-
-
     
     # segna peggiori risultati (punteggi più bassi)
     for giocatore, matches in player_matches.items():
-
-    
-        
         # Ordina per punteggio crescente → scarta i peggiori
         matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
         print("Giocatore:", giocatore)
@@ -178,9 +171,6 @@ def update_obiective_points(json_path, csv_path):
 
     records_sorted = sorted(records, key=lambda r: datetime.strptime(r["Data"], "%Y-%m-%d"))
 
-            #print("Giocatore:", giocatore)
-            #print("punti partite:", [m["punti_singoli"] for m in matches])
-            #print("partite scartate:",  matches[min_partite:])
 
     # Scrivi il CSV aggiornato
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:
@@ -190,26 +180,9 @@ def update_obiective_points(json_path, csv_path):
 
     print(f"Classifica obiettivo salvata in {csv_path}")
     
-    
-
-
-
-    
 
 def main():
     json_path = "../history.json"
-    #args = argparse_args()
-
-    #date = args.date
-
-    '''
-    if os.path.exists(data_path):
-        with open(data_path, "r") as file:
-            data = json.load(file)
-    else:
-        data = []
-        new_entry = {
-    '''
 
     ######################################## UPDATE GENERAL TREND CSV #################################
     general_trend_csv_path = "../js/statistiche/chart1/general_trend.csv"
