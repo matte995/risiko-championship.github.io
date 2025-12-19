@@ -83,7 +83,7 @@
   {
     "data": "2025-12-18",
     "giocatori": ["Sacha", "Matte", "Riky", "Ale"],
-    "punti_obiettivo": [53, 37, 42, 7],
+    "punti_obiettivo": [43, 37, 42, 7],
     "piazzamento": [1, 3, 2, 4],
     "obiettivo_completato": [0, 0, 0, 0],
     "giocatori_eliminati": [0, 0, 0, 0],
