@@ -6,8 +6,9 @@ Data,Giocatore,Punti_obiettivo,Scartata
 2025-11-3,Matte,32,False
 2025-10-30,Matte,26,False
 2025-12-12,Matte,25,False
-2025-09-25,Matte,21,True
+2025-09-25,Matte,21,False
 2025-12-2,Matte,21,True
+2025-12-29,Matte,14,True
 2025-10-23,Matte,12,True
 2025-11-12,Sacha,78,False
 2025-12-18,Sacha,43,False
@@ -16,13 +17,15 @@ Data,Giocatore,Punti_obiettivo,Scartata
 2025-11-6,Sacha,24,False
 2025-12-2,Sacha,24,False
 2025-12-12,Sacha,22,False
-2025-10-23,Sacha,21,True
+2025-10-23,Sacha,21,False
+2025-12-29,Sacha,20,True
 2025-11-3,Sacha,13,True
 2025-10-30,Sacha,9,True
 2025-10-23,Riky,51,False
 2025-10-30,Riky,48,False
 2025-12-12,Riky,45,False
 2025-12-18,Riky,42,False
+2025-12-29,Riky,36,False
 2025-11-6,Riky,35,False
 2025-11-3,Riky,18,False
 2025-12-2,Riky,18,False
@@ -36,7 +39,7 @@ Data,Giocatore,Punti_obiettivo,Scartata
 2025-09-25,Ale,19,False
 2025-10-23,Ale,13,False
 2025-10-30,Ale,10,False
-2025-12-2,Ale,10,True
+2025-12-2,Ale,10,False
 2025-12-12,Ale,8,True
 2025-12-18,Ale,7,True
 2025-12-2,Lozzio,52,False
@@ -44,5 +47,6 @@ Data,Giocatore,Punti_obiettivo,Scartata
 2025-12-12,Lozzio,38,False
 2025-09-25,Lozzio,37,False
 2025-11-3,Lozzio,36,False
+2025-12-29,Lozzio,33,False
 2025-10-30,Lozzio,29,False
 2025-10-23,Lozzio,25,False
