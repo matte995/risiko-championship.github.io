@@ -90,17 +90,18 @@
                     <br>
                     <li><b>Bonus piazzamento:</b>
                         <ol>
-                            <li>20 punti</li>
-                            <li>15 punti</li>
+                            <li>100 punti</li>
+                            <li>50 punti</li>
+                            <li>25 punti</li>
                             <li>10 punti</li>
                             <li>5 punti</li>
                             <li>0 punti</li>
                         </ol>
                     </li>
                     <br>
-                    <li><b>Bonus eliminazione giocaore:</b> 5 punti</li>
-                    <li><b>Bonus obiettivo completato:</b> 10 punti</li>
-                    <li><b>Malus giocatore eliminato:</b> -5 punti</li>
+                    <li><b>Bonus eliminazione giocaore:</b> 50 punti</li>
+                    <li><b>Bonus obiettivo completato:</b> 150 punti</li>
+                    <li><b>Malus giocatore eliminato:</b> -50 punti</li>
                 </ul>
             </div>
             <hr>
@@ -109,23 +110,25 @@
                 <div class="subtitle left">
                     <p><b>N = numero giocatori</b></p>
                     <div class="subtitle center">&alpha; = N/4</div>
+                    <p>(Esempio: 6 giocatori &rarr; &alpha; = 6/4 = 1.5)</p>
                     <p>(Esempio: 5 giocatori &rarr; &alpha; = 5/4 = 1.25)</p>
+                    <p>(Esempio: 4 giocatori &rarr; &alpha; = 4/4 = 1)</p>
                 </div>
                 <div>
                 <h2 class="title center">3. Calcolo punteggio finale per singola partita</h2><br>
                 <div class="subtitle left">
-                    <p><i>Punteggio Partita = (A + P + 5 * E + 10 * O + 1 * S) * (N/4)</i></p>
+                    <p><i>Punteggio Partita = (A + P + 50 * E + 150 * O + 50 * S) * (N/4)</i></p>
                     <p>Dati:
                         <ul>
                             <li>A = Punteggio Obiettivo (punti obiettivo)</li>
                             <li>P = Bonus piazzamento (da tabella sopra)</li>
                             <li>E = Numero eliminazioni del giocatore</li>
                             <li>O = 1 se ha completato obiettivo, 0 altrimenti</li>
-                            <li>S = Bonus sopravvivenza (0 o -5)</li>
+                            <li>S = Bonus sopravvivenza (1; -1; 0)</li>
                             <li>N = Numero giocatori nella partita</li>
                         </ul>
-                
                     </p>
+
                 </div>
                 <div>
                 <h2 class="title center">4. Esempio calcolo singola partita</h2><br>
@@ -134,15 +137,15 @@
                     <p>Dati:
                         <ul>
                             <li>A = 8 (punti obiettivo)</li>
-                            <li>P = 20 (1°)</li>
+                            <li>P = 100 (1°)</li>
                             <li>E = 1 giocatori eliminati</li>
                             <li>O = 1 (ha completato l’obiettivo)</li>
                             <li>S = 0 (non eliminato)</li>
                             <li>N = Numero giocatori nella partita</li>
                         </ul>
-                        <p>Somma interna = 8 + 20 + 5*1 + 10*1 - 5*0 = 8 + 20 + 5 + 10 = 43</p>
-                        <p>Fattore = 5/4 = 1.25</p>
-                        <p> PunteggioPartita 43 * 1.25 = 53.75 &rarr; arrotondi a 54</p>
+                        <p>Somma interna = 8 + 100 + 50*1 + 150*1 + 50*0 = 8 + 100 + 50 + 150 = 308</p>
+                        <p>Fattore = 6/4 = 1.5</p>
+                        <p> PunteggioPartita 308 * 1.5 = 462</p>
 
                     </p>
                 </div>
@@ -150,6 +153,7 @@
                 <h2 class="title center">5. Classifica generale</h2><br>
                 <div class="subtitle left">
                     Il calcolo della classifica generale è data dalla somma di ogni singola partita.
+                    In caso un giocatore abbia disputato più di 15 partite, verranno considerati solo i migliori 15 risultati.
                 </div>
 
                 <h2 class="title center">6. Lancio dei dadi</h2><br>
@@ -166,15 +170,15 @@
                 <h2 class="title center">7. Fine campionato</h2><br>
                 <div class="subtitle left">
                    <ul>
-                        <li>Il campionato finisce quando il giocatore con meno partite raggoiunge 15 partite giocate.</li>
-                        <li>Quando il campionato sarà finito, ai giocatori che hanno disputato più di 15 partite, verranno sottratti i peggiori risultati ottenuti fino ad arrivare ad un totale di 15 partite. </li>
+                        <li>Il campionato finisce quando il giocatore con meno partite raggoiunge 10 partite giocate.</li>
+                        <li>Quando il campionato sarà finito, ai giocatori che hanno disputato più di 10 partite, verranno sottratti i peggiori risultati ottenuti fino ad arrivare ad un totale di 10 partite.</li>
                         
                     </ul>
                 </div>
-                <h2 class="title center">8. Da definire</h2><br>
+                <h2 class="title center">8. Altre</h2><br>
                 <div class="subtitle left">
                    <ul>
-                         
+                        <li> Timer giocatore 2 minuti. Il timer scorre solo nella fase passiva del giocatore. Quando il giocatore sta giocando attivamente il timer verrà messo in pausa.</li>
                     </ul>
                 </div>
             </div>
