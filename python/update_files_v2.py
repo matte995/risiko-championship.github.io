@@ -24,15 +24,16 @@ def convert_date(date_str):
     except ValueError:
         raise ValueError("Incorrect date format, should be YYYY-MM-DD")
     
-BONUS_PIAZZAMENTO = {1: 20,
-                     2: 15,
-                     3: 10,
-                     4: 5,
-                     5: 0}
+BONUS_PIAZZAMENTO = {1: 100,
+                     2: 50,
+                     3: 25,
+                     4: 10,
+                     5: 5,
+                     6: 0}
 
 
 def compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=5):
-    punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (5 * giocatori_eliminati) + (10 * obiettivo_compleatato) - (5 * eliminato)) * (N / 4));
+    punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (50 * giocatori_eliminati) + (150 * obiettivo_compleatato) - (50 * eliminato)) * (N / 4));
     #print("Punteggio calcolato:", punteggioFinale)
     return int(round(punteggioFinale, 0)) 
 
