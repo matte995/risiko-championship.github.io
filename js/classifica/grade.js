@@ -30,19 +30,24 @@ function caricaClassifica() {
 
           const punteggioFinale = Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
 
+          // Inizializza correttamente i campi eliminazioniTotale ed eliminatoTotale
           if (!punteggiGiocatori[player]) {
             punteggiGiocatori[player] = {
               punteggi: [],
               partiteGiocate: 0,
-              punteggioTotale: 0
+              punteggioTotale: 0,
+              eliminazioniTotale: 0, // Corretto: inizializzazione
+              eliminatoTotale: 0     // Corretto: inizializzazione
             };
           }
 
-          //console.log(`Giocatore: ${player}, Punteggio obiettivo: ${game.punti_obiettivo[i]}, Piazzamento: ${game.piazzamento[i]}, Bonus paizzamento: ${P}, Punteggio finale: ${punteggioFinale}`);
+          //console.log(`Giocatore: ${player}, Punteggio obiettivo: ${game.punti_obiettivo[i]}, Piazzamento: ${game.piazzamento[i]}, Bonus paizzamento: ${P}, Punteggio finale: ${punteggioFinale}, Giocatori eliminati: ${E}, Obiettivo completato: ${O}, Eliminato: ${S}`);
 
           punteggiGiocatori[player].punteggi.push(punteggioFinale);
           punteggiGiocatori[player].punteggioTotale += punteggioFinale;
           punteggiGiocatori[player].partiteGiocate += 1;
+          punteggiGiocatori[player].eliminazioniTotale += E;
+          punteggiGiocatori[player].eliminatoTotale += S;
         });
       });
 
@@ -57,8 +62,10 @@ function caricaClassifica() {
       Object.values(punteggiGiocatori).forEach(gioc => {
         const migliori = [...gioc.punteggi].sort((a, b) => b - a).slice(0, minPartite);
         //console.log("Migliori punteggi per", gioc, ":", migliori);
-        gioc.punteggioTotale2 = migliori.reduce((acc, val) => acc + val, 0);                         //Punteggio Totale 2 è il punteggio con le partite scartate
-        //console.log("Punteggio Totale 2 calcolato:", gioc.punteggioTotale2);
+        gioc.punteggioTotaleNormalizzato = migliori.length > 0
+          ? migliori.reduce((acc, val) => acc + val, 0)
+          : 0; // Se non ci sono partite, il punteggio normalizzato è 0
+        //console.log("Punteggio Totale 2 calcolato:", gioc.punteggioTotaleNormalizzato);
       });
 
 
@@ -68,11 +75,13 @@ function caricaClassifica() {
         giocatore: player,
         partiteGiocate: punteggiGiocatori[player].partiteGiocate,
         punteggioTotale: punteggiGiocatori[player].punteggioTotale,
-        punteggioTotale2: punteggiGiocatori[player].punteggioTotale2
+        punteggioTotaleNormalizzato: punteggiGiocatori[player].punteggioTotaleNormalizzato,
+        eliminazioniTotale: punteggiGiocatori[player].eliminazioniTotale,
+        eliminatoTotale: punteggiGiocatori[player].eliminatoTotale
       }));
 
       // Ordina per punteggio totale 2
-      classificaArray.sort((a, b) => b.punteggioTotale2 - a.punteggioTotale2);
+      classificaArray.sort((a, b) => b.punteggioTotaleNormalizzato - a.punteggioTotaleNormalizzato);
 
       
       // Seleziona tabella e aggiungi intestazione extra
@@ -95,7 +104,7 @@ function caricaClassifica() {
           <td>${giocatore.giocatore}</td>
           <td>${giocatore.partiteGiocate}</td>
           <td>${giocatore.punteggioTotale}</td>
-          <td>${giocatore.punteggioTotale2}</td>
+          <td>${giocatore.punteggioTotaleNormalizzato}</td>
         `;
         */
        classificaArray.forEach((giocatore, index) => {
@@ -104,8 +113,10 @@ function caricaClassifica() {
           <td>${index + 1}</td>
           <td>${giocatore.giocatore}</td>
           <td>${giocatore.partiteGiocate}</td>
-          <td>${giocatore.punteggioTotale2}</td>
-        `;
+          <td>${giocatore.eliminazioniTotale}</td>
+          <td>${giocatore.eliminatoTotale}</td>
+          <td>${giocatore.punteggioTotaleNormalizzato}</td>
+          `;
         tbody.appendChild(row);
       });
     })
