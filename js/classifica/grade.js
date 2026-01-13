@@ -1,7 +1,7 @@
 // Funzione per calcolare il bonus piazzamento
-function getBonusPiazzamento(piazzamento) {
-  switch (piazzamento) {
-    case 1: return 150;
+function getBonusPiazzamento(pos) {
+  switch(pos) {
+    case 1: return 100;
     case 2: return 50;
     case 3: return 25;
     case 4: return 10;
@@ -37,6 +37,8 @@ function caricaClassifica() {
               punteggioTotale: 0
             };
           }
+
+          //console.log(`Giocatore: ${player}, Punteggio obiettivo: ${game.punti_obiettivo[i]}, Piazzamento: ${game.piazzamento[i]}, Bonus paizzamento: ${P}, Punteggio finale: ${punteggioFinale}`);
 
           punteggiGiocatori[player].punteggi.push(punteggioFinale);
           punteggiGiocatori[player].punteggioTotale += punteggioFinale;

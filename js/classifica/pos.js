@@ -3,7 +3,7 @@
 // ===============================
 function getBonusPiazzamento(piazzamento) {
     switch (piazzamento) {
-        case 1: return 150;
+        case 1: return 100;
         case 2: return 50;
         case 3: return 25;
         case 4: return 10;
@@ -58,7 +58,7 @@ function caricaClassificaPosizione() {
                 ...Object.values(partitePerGiocatore).map(p => p.length)
             );
 
-            console.log('Partite considerate per tutti:', minPartite);
+            //console.log('Partite considerate per tutti:', minPartite);
 
             // 3. Scarta peggiori partite e conta posizioni
             const posizioniGiocatori = {};

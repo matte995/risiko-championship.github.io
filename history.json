@@ -2,7 +2,7 @@
   {
     "data": "2026-01-6",
     "giocatori": ["Matte", "Sacha", "Riky", "Mirko"],
-    "punti_obiettivo": [51, 48, 0, 29, 37],
+    "punti_obiettivo": [51, 48, 0, 29],
     "piazzamento": [1, 2, 4, 3],
     "obiettivo_completato": [0, 0, 0, 0],
     "giocatori_eliminati": [0, 0, 0, 1],
