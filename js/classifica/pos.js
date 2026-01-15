@@ -110,30 +110,37 @@ function caricaClassificaPosizione(campionato) {
     const tbody = document.querySelector('#classifica_posizione tbody');
     tbody.innerHTML = '';
 
-    Object.entries(posizioniGiocatori).forEach(([player, posizioni]) => {
-        const tr = document.createElement('tr');
-
-        const tdNome = document.createElement('td');
-        tdNome.textContent = player;
-        tr.appendChild(tdNome);
-
-        for (let p = 1; p <= 6; p++) {
-            const td = document.createElement('td');
-            td.textContent = posizioni[p];
-            tr.appendChild(td);
-        }
-
-        // Calcola il totale pesato delle partite considerate
-        // Prendi le migliori partite (come per le posizioni)
+    // Prepara array per ordinamento
+    const rows = Object.entries(posizioniGiocatori).map(([player, posizioni]) => {
         const partite = partitePerGiocatore[player]
             .slice()
             .sort((a, b) => b.punteggio - a.punteggio)
             .slice(0, minPartite);
         const totale = partite.reduce((acc, partita) => acc + partita.bonusPiazzamento * partita.peso, 0);
-        const tdTotale = document.createElement('td');
-        tdTotale.textContent = Math.round(totale);
-        tr.appendChild(tdTotale);
+        return {
+            player,
+            posizioni,
+            totale: Math.round(totale)
+        };
+    });
 
+    // Ordina per totale decrescente
+    rows.sort((a, b) => b.totale - a.totale);
+
+    // Popola la tabella
+    rows.forEach(({player, posizioni, totale}) => {
+        const tr = document.createElement('tr');
+        const tdNome = document.createElement('td');
+        tdNome.textContent = player;
+        tr.appendChild(tdNome);
+        for (let p = 1; p <= 6; p++) {
+            const td = document.createElement('td');
+            td.textContent = posizioni[p];
+            tr.appendChild(td);
+        }
+        const tdTotale = document.createElement('td');
+        tdTotale.textContent = totale;
+        tr.appendChild(tdTotale);
         tbody.appendChild(tr);
     });
 }
