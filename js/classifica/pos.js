@@ -65,14 +65,14 @@ function caricaClassificaPosizione(campionato) {
     campionato.forEach(game => {
         const N = game.giocatori.length;
         game.giocatori.forEach((player, i) => {
-
             if (!partitePerGiocatore[player]) {
                 partitePerGiocatore[player] = [];
             }
-
             partitePerGiocatore[player].push({
                 punteggio: calcolaPunteggioPartita(game, N, i),
-                piazzamento: Number(game.piazzamento[i])
+                piazzamento: Number(game.piazzamento[i]),
+                bonusPiazzamento: getBonusPiazzamento(Number(game.piazzamento[i])),
+                peso: N / 4
             });
         });
     });
@@ -122,6 +122,17 @@ function caricaClassificaPosizione(campionato) {
             td.textContent = posizioni[p];
             tr.appendChild(td);
         }
+
+        // Calcola il totale pesato delle partite considerate
+        // Prendi le migliori partite (come per le posizioni)
+        const partite = partitePerGiocatore[player]
+            .slice()
+            .sort((a, b) => b.punteggio - a.punteggio)
+            .slice(0, minPartite);
+        const totale = partite.reduce((acc, partita) => acc + partita.bonusPiazzamento * partita.peso, 0);
+        const tdTotale = document.createElement('td');
+        tdTotale.textContent = Math.round(totale);
+        tr.appendChild(tdTotale);
 
         tbody.appendChild(tr);
     });
