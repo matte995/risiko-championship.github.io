@@ -117,14 +117,14 @@
                 <div>
                 <h2 class="title center">3. Calcolo punteggio finale per singola partita</h2><br>
                 <div class="subtitle left">
-                    <p><i>Punteggio Partita = (A + P + 50 * E + 150 * O + 50 * S) * (N/4)</i></p>
+                    <p><i>Punteggio Partita = (A + P + (50 * E) + 150 * O - (50 * S)) * (N/4)</i></p>
                     <p>Dati:
                         <ul>
                             <li>A = Punteggio Obiettivo (punti obiettivo)</li>
                             <li>P = Bonus piazzamento (da tabella sopra)</li>
                             <li>E = Numero eliminazioni del giocatore</li>
                             <li>O = 1 se ha completato obiettivo, 0 altrimenti</li>
-                            <li>S = Bonus sopravvivenza (1; -1; 0)</li>
+                            <li>S = Bonus sopravvivenza (0; -1)</li>
                             <li>N = Numero giocatori nella partita</li>
                         </ul>
                     </p>
@@ -153,7 +153,7 @@
                 <h2 class="title center">5. Classifica generale</h2><br>
                 <div class="subtitle left">
                     Il calcolo della classifica generale è data dalla somma di ogni singola partita.
-                    In caso un giocatore abbia disputato più di 15 partite, verranno considerati solo i migliori 15 risultati.
+                    In caso un giocatore abbia disputato più di 10 partite, verranno considerati solo i migliori 10 risultati.
                 </div>
 
                 <h2 class="title center">6. Lancio dei dadi</h2><br>

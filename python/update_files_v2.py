@@ -78,10 +78,17 @@ def aggiorna_classifica(json_path, csv_path):
 
         # Per chi ha giocato di più, elimina i peggiori risultati (punteggi più bassi)
         for giocatore, matches in player_matches.items():
+
+            print("giocatore:", giocatore, "ha giocato", len(matches), "partite; minimo è", min_partite)
             if len(matches) > min_partite:
                 matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
+                #print("matches ordinati per punti_singoli:", matches)
                 player_matches[giocatore] = matches[:min_partite]
+                #print("matches dopo scarto peggiori:", player_matches[giocatore])
                 player_matches[giocatore].sort(key=lambda x: x["data"])
+                #print("partite scartate: ", matches[min_partite:])
+                #print("matches riordinati per data:", player_matches[giocatore])
+               # print("\n")
 
         ### NEW: Ricostruisci punteggi cumulativi uniformati ###
         if idx_campionato not in punteggi_cumulativi:
@@ -133,20 +140,21 @@ def update_obiective_points(json_path, csv_path):
                     player_matches[giocatore] = []
                 player_matches[giocatore].append({
                     "data": data,
-                    "punti_singoli": punti
+                    "punti_obiettivo": punti,
+                    "punti_totali": compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=len(partita['giocatori']))                
                 })
 
         min_partite = min(len(matches) for matches in player_matches.values())
 
         for giocatore, matches in player_matches.items():
-            matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
+            matches.sort(key=lambda x: x["punti_totali"], reverse=True)
 
             for i, match in enumerate(matches):
                 records.append({
                     "Campionato": idx_campionato,
                     "Data": match["data"],
                     "Giocatore": giocatore,
-                    "Punti_obiettivo": match["punti_singoli"],
+                    "Punti_obiettivo": match["punti_obiettivo"],
                     "Scartata": i + 1 > min_partite
                 })
 
