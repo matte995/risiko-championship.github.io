@@ -11,117 +11,108 @@ function getBonusPiazzamento(pos) {
   }
 }
 
-// Funzione principale per costruire la classifica
-function caricaClassifica() {
+// Funzione per caricare i campionati nel menu a tendina
+function caricaCampionati() {
   fetch('../../history.json')
     .then(response => response.json())
     .then(data => {
-      const punteggiGiocatori = {};
+      const select = document.getElementById('campionato-select');
+      select.innerHTML = ''; // Pulisce il menu
 
-      data.forEach(game => {
-        const N = game.giocatori.length;
-
-        game.giocatori.forEach((player, i) => {
-          const A = Number(game.punti_obiettivo[i]);
-          const P = getBonusPiazzamento(Number(game.piazzamento[i]));
-          const E = Number(game.giocatori_eliminati[i]);
-          const O = Number(game.obiettivo_completato[i]);
-          const S = Number(game.eliminato[i]);
-
-          const punteggioFinale = Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
-
-          // Inizializza correttamente i campi eliminazioniTotale ed eliminatoTotale
-          if (!punteggiGiocatori[player]) {
-            punteggiGiocatori[player] = {
-              punteggi: [],
-              partiteGiocate: 0,
-              punteggioTotale: 0,
-              eliminazioniTotale: 0, // Corretto: inizializzazione
-              eliminatoTotale: 0     // Corretto: inizializzazione
-            };
-          }
-
-          //console.log(`Giocatore: ${player}, Punteggio obiettivo: ${game.punti_obiettivo[i]}, Piazzamento: ${game.piazzamento[i]}, Bonus paizzamento: ${P}, Punteggio finale: ${punteggioFinale}, Giocatori eliminati: ${E}, Obiettivo completato: ${O}, Eliminato: ${S}`);
-
-          punteggiGiocatori[player].punteggi.push(punteggioFinale);
-          punteggiGiocatori[player].punteggioTotale += punteggioFinale;
-          punteggiGiocatori[player].partiteGiocate += 1;
-          punteggiGiocatori[player].eliminazioniTotale += E;
-          punteggiGiocatori[player].eliminatoTotale += S;
-        });
+      data.forEach((campionato, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `Campionato ${index + 1}`;
+        select.appendChild(option);
       });
 
-      // Trova il minimo numero di partite giocate da un giocatore
-      const minPartite = Math.min(
-        ...Object.values(punteggiGiocatori).map(p => p.partiteGiocate)
-      );
+      // Seleziona di default l'ultimo campionato
+      const lastIndex = data.length - 1;
+      select.value = lastIndex;
+      caricaClassifica(data[lastIndex]);
 
-      //console.log("Minimo numero di partite giocate:", minPartite);
-
-      // Calcola il punteggio totale 2 (solo migliori partite)
-      Object.values(punteggiGiocatori).forEach(gioc => {
-        const migliori = [...gioc.punteggi].sort((a, b) => b - a).slice(0, minPartite);
-        //console.log("Migliori punteggi per", gioc, ":", migliori);
-        gioc.punteggioTotaleNormalizzato = migliori.length > 0
-          ? migliori.reduce((acc, val) => acc + val, 0)
-          : 0; // Se non ci sono partite, il punteggio normalizzato è 0
-        //console.log("Punteggio Totale 2 calcolato:", gioc.punteggioTotaleNormalizzato);
-      });
-
-
-
-      // Costruisci l’array per la tabella
-      const classificaArray = Object.keys(punteggiGiocatori).map(player => ({
-        giocatore: player,
-        partiteGiocate: punteggiGiocatori[player].partiteGiocate,
-        punteggioTotale: punteggiGiocatori[player].punteggioTotale,
-        punteggioTotaleNormalizzato: punteggiGiocatori[player].punteggioTotaleNormalizzato,
-        eliminazioniTotale: punteggiGiocatori[player].eliminazioniTotale,
-        eliminatoTotale: punteggiGiocatori[player].eliminatoTotale
-      }));
-
-      // Ordina per punteggio totale 2
-      classificaArray.sort((a, b) => b.punteggioTotaleNormalizzato - a.punteggioTotaleNormalizzato);
-
-      
-      // Seleziona tabella e aggiungi intestazione extra
-      const table = document.getElementById('classifica');
-      const tbody = table.querySelector('tbody');
-      /*
-      if (!theadRow.querySelector('.col-punteggio2')) {
-        const th = document.createElement('th');
-        th.classList.add('col-punteggio2');
-        th.textContent = 'Punteggio Totale 2';
-        theadRow.appendChild(th);
-      }
-      */
-      tbody.innerHTML = ''; // pulizia
-      /*
-      classificaArray.forEach((giocatore, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${giocatore.giocatore}</td>
-          <td>${giocatore.partiteGiocate}</td>
-          <td>${giocatore.punteggioTotale}</td>
-          <td>${giocatore.punteggioTotaleNormalizzato}</td>
-        `;
-        */
-       classificaArray.forEach((giocatore, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${giocatore.giocatore}</td>
-          <td>${giocatore.partiteGiocate}</td>
-          <td>${giocatore.eliminazioniTotale}</td>
-          <td>${giocatore.eliminatoTotale}</td>
-          <td>${giocatore.punteggioTotaleNormalizzato}</td>
-          `;
-        tbody.appendChild(row);
+      // Aggiunge un listener per cambiare campionato
+      select.addEventListener('change', () => {
+        const selectedIndex = select.value;
+        caricaClassifica(data[selectedIndex]);
       });
     })
-    .catch(err => console.error("Errore nel caricamento del JSON:", err));
+    .catch(err => console.error('Errore nel caricamento dei campionati:', err));
 }
 
-// Richiama la funzione quando la pagina è pronta
-document.addEventListener('DOMContentLoaded', caricaClassifica);
+// Modifica la funzione caricaClassifica per accettare un campionato specifico
+function caricaClassifica(campionato) {
+  const punteggiGiocatori = {};
+
+  campionato.forEach(game => {
+    const N = game.giocatori.length;
+
+    game.giocatori.forEach((player, i) => {
+      const A = Number(game.punti_obiettivo[i]);
+      const P = getBonusPiazzamento(Number(game.piazzamento[i]));
+      const E = Number(game.giocatori_eliminati[i]);
+      const O = Number(game.obiettivo_completato[i]);
+      const S = Number(game.eliminato[i]);
+
+      const punteggioFinale = Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
+
+      if (!punteggiGiocatori[player]) {
+        punteggiGiocatori[player] = {
+          punteggi: [],
+          partiteGiocate: 0,
+          punteggioTotale: 0,
+          eliminazioniTotale: 0,
+          eliminatoTotale: 0
+        };
+      }
+
+      punteggiGiocatori[player].punteggi.push(punteggioFinale);
+      punteggiGiocatori[player].punteggioTotale += punteggioFinale;
+      punteggiGiocatori[player].partiteGiocate += 1;
+      punteggiGiocatori[player].eliminazioniTotale += E;
+      punteggiGiocatori[player].eliminatoTotale += S;
+    });
+  });
+
+  const minPartite = Math.min(
+    ...Object.values(punteggiGiocatori).map(p => p.partiteGiocate)
+  );
+
+  Object.values(punteggiGiocatori).forEach(gioc => {
+    const migliori = [...gioc.punteggi].sort((a, b) => b - a).slice(0, minPartite);
+    gioc.punteggioTotaleNormalizzato = migliori.length > 0
+      ? migliori.reduce((acc, val) => acc + val, 0)
+      : 0;
+  });
+
+  const classificaArray = Object.keys(punteggiGiocatori).map(player => ({
+    giocatore: player,
+    partiteGiocate: punteggiGiocatori[player].partiteGiocate,
+    punteggioTotale: punteggiGiocatori[player].punteggioTotale,
+    punteggioTotaleNormalizzato: punteggiGiocatori[player].punteggioTotaleNormalizzato,
+    eliminazioniTotale: punteggiGiocatori[player].eliminazioniTotale,
+    eliminatoTotale: punteggiGiocatori[player].eliminatoTotale
+  }));
+
+  classificaArray.sort((a, b) => b.punteggioTotaleNormalizzato - a.punteggioTotaleNormalizzato);
+
+  const table = document.getElementById('classifica');
+  const tbody = table.querySelector('tbody');
+  tbody.innerHTML = '';
+
+  classificaArray.forEach((giocatore, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${giocatore.giocatore}</td>
+      <td>${giocatore.partiteGiocate}</td>
+      <td>${giocatore.eliminazioniTotale}</td>
+      <td>${giocatore.eliminatoTotale}</td>
+      <td>${giocatore.punteggioTotaleNormalizzato}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Richiama la funzione per caricare i campionati quando la pagina è pronta
+document.addEventListener('DOMContentLoaded', caricaCampionati);

@@ -39,145 +39,123 @@ def compute_single_match_points(punti, piazzamento, obiettivo_compleatato, gioca
 
 def aggiorna_classifica(json_path, csv_path):
     with open(json_path, 'r', encoding='utf-8') as f:
-        partite = json.load(f)
+        campionati = json.load(f)
 
-    partite.sort(key=lambda x: datetime.strptime(x['data'], '%Y-%m-%d'))
-
-    # Dizionario per tenere traccia delle partite di ogni giocatore
-    player_matches = {}
-
-    # Prima passata: calcola il punteggio di ogni singola partita
-    for partita in partite:
-        data = partita['data']
-        for giocatore, punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato in zip(
-            partita['giocatori'],
-            partita['punti_obiettivo'],
-            partita['piazzamento'],
-            partita['obiettivo_completato'],
-            partita['giocatori_eliminati'],
-            partita['eliminato']
-        ):
-            punti_match = compute_single_match_points(
-                punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=len(partita['giocatori'])
-            )
-
-            if giocatore not in player_matches:
-                player_matches[giocatore] = []
-            player_matches[giocatore].append({
-                "data": data,
-                "punti_singoli": punti_match
-            })
-
-    ### NEW: Normalizzazione del numero di partite ###
-    # Trova il numero minimo di partite disputate
-    min_partite = min(len(matches) for matches in player_matches.values())
-    print(f"Numero minimo di partite disputate: {min_partite}")
-
-    # Per chi ha giocato di più, elimina i peggiori risultati (punteggi più bassi)
-    for giocatore, matches in player_matches.items():
-
-        if len(matches) > min_partite:
-            
-            # Ordina per punteggio crescente → scarta i peggiori
-            matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
-            player_matches[giocatore] = matches[:min_partite]
-            # Riordina per data per ricostruire il trend temporale
-            player_matches[giocatore].sort(key=lambda x: x["data"])
-            #print("Giocatore:", giocatore)
-            #print("partite scartate:",  matches[min_partite:])
-    ### NEW: Ricostruisci punteggi cumulativi uniformati ###
     records = []
-    punteggi_cumulativi = {g: 0 for g in player_matches.keys()}
+    punteggi_cumulativi = {}
 
-    # Per ogni data (globale) in ordine cronologico
-    tutte_date = sorted(set(m["data"] for matches in player_matches.values() for m in matches), key=lambda d: datetime.strptime(d, "%Y-%m-%d"))
-    #print("Tutte le date:", tutte_date)
-    for data in tutte_date:
-        for giocatore, matches in player_matches.items():
-            # Trova la partita di quella data, se esiste
-            match = next((m for m in matches if m["data"] == data), None)
-            if match:
-                punteggi_cumulativi[giocatore] += match["punti_singoli"]
+    for idx_campionato, partite in enumerate(campionati, start=1):
+        partite.sort(key=lambda x: datetime.strptime(x['data'], '%Y-%m-%d'))
 
-                records.append({
-                    "Data": data,
-                    "Giocatore": giocatore,
-                    "Punti_totali": punteggi_cumulativi[giocatore],
+        # Dizionario per tenere traccia delle partite di ogni giocatore
+        player_matches = {}
+
+        # Prima passata: calcola il punteggio di ogni singola partita
+        for partita in partite:
+            data = partita['data']
+            for giocatore, punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato in zip(
+                partita['giocatori'],
+                partita['punti_obiettivo'],
+                partita['piazzamento'],
+                partita['obiettivo_completato'],
+                partita['giocatori_eliminati'],
+                partita['eliminato']
+            ):
+                punti_match = compute_single_match_points(
+                    punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=len(partita['giocatori'])
+                )
+
+                if giocatore not in player_matches:
+                    player_matches[giocatore] = []
+                player_matches[giocatore].append({
+                    "data": data,
+                    "punti_singoli": punti_match
                 })
 
-    # Scrivi il CSV aggiornato
+        ### NEW: Normalizzazione del numero di partite ###
+        # Trova il numero minimo di partite disputate
+        min_partite = min(len(matches) for matches in player_matches.values())
+
+        # Per chi ha giocato di più, elimina i peggiori risultati (punteggi più bassi)
+        for giocatore, matches in player_matches.items():
+            if len(matches) > min_partite:
+                matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
+                player_matches[giocatore] = matches[:min_partite]
+                player_matches[giocatore].sort(key=lambda x: x["data"])
+
+        ### NEW: Ricostruisci punteggi cumulativi uniformati ###
+        if idx_campionato not in punteggi_cumulativi:
+            punteggi_cumulativi[idx_campionato] = {g: 0 for g in player_matches.keys()}
+
+        tutte_date = sorted(set(m["data"] for matches in player_matches.values() for m in matches), key=lambda d: datetime.strptime(d, "%Y-%m-%d"))
+        for data in tutte_date:
+            for giocatore, matches in player_matches.items():
+                match = next((m for m in matches if m["data"] == data), None)
+                if match:
+                    punteggi_cumulativi[idx_campionato][giocatore] += match["punti_singoli"]
+
+                    records.append({
+                        "Campionato": idx_campionato,
+                        "Data": data,
+                        "Giocatore": giocatore,
+                        "Punti_totali": punteggi_cumulativi[idx_campionato][giocatore],
+                    })
+
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=['Data', 'Giocatore', 'Punti_totali'])
+        writer = csv.DictWriter(f, fieldnames=['Campionato', 'Data', 'Giocatore', 'Punti_totali'])
         writer.writeheader()
         writer.writerows(records)
 
     print(f"Classifica equalizzata salvata in {csv_path}")
 
-
 def update_obiective_points(json_path, csv_path):
-
     with open(json_path, 'r', encoding='utf-8') as f:
-        partite = json.load(f)
-
-    partite.sort(key=lambda x: datetime.strptime(x['data'], '%Y-%m-%d'))
-
-    # Dizionario per tenere traccia delle partite di ogni giocatore
-    player_matches = {}
-
-    # Prima passata: calcola il punteggio di ogni singola partita
-    for partita in partite:
-        data = partita['data']
-        for giocatore, punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato in zip(
-            partita['giocatori'],
-            partita['punti_obiettivo'],
-            partita['piazzamento'],
-            partita['obiettivo_completato'],
-            partita['giocatori_eliminati'],
-            partita['eliminato']
-        ):
-            if giocatore not in player_matches:
-                player_matches[giocatore] = []
-            player_matches[giocatore].append({
-                "data": data,
-                "punti_singoli": punti
-            })
-
-    min_partite = min(len(matches) for matches in player_matches.values())
-    print(f"Numero minimo di partite disputate: {min_partite}")
+        campionati = json.load(f)
 
     records = []
-    
-    # segna peggiori risultati (punteggi più bassi)
-    for giocatore, matches in player_matches.items():
-        # Ordina per punteggio crescente → scarta i peggiori
-        matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
-        print("Giocatore:", giocatore)
-        print("punti partite:", [m["punti_singoli"] for m in matches])
 
-        for i, match in enumerate(matches):
-            if i+1 <= min_partite:
-                records.append({
-                    "Data": match["data"],
-                    "Giocatore": giocatore,
-                    "Punti_obiettivo": match["punti_singoli"],
-                    "Scartata": False
+    for idx_campionato, partite in enumerate(campionati, start=1):
+        partite.sort(key=lambda x: datetime.strptime(x['data'], '%Y-%m-%d'))
+
+        player_matches = {}
+
+        for partita in partite:
+            data = partita['data']
+            for giocatore, punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato in zip(
+                partita['giocatori'],
+                partita['punti_obiettivo'],
+                partita['piazzamento'],
+                partita['obiettivo_completato'],
+                partita['giocatori_eliminati'],
+                partita['eliminato']
+            ):
+                if giocatore not in player_matches:
+                    player_matches[giocatore] = []
+                player_matches[giocatore].append({
+                    "data": data,
+                    "punti_singoli": punti
                 })
-            else:
+
+        min_partite = min(len(matches) for matches in player_matches.values())
+
+        for giocatore, matches in player_matches.items():
+            matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
+
+            for i, match in enumerate(matches):
                 records.append({
+                    "Campionato": idx_campionato,
                     "Data": match["data"],
                     "Giocatore": giocatore,
                     "Punti_obiettivo": match["punti_singoli"],
-                    "Scartata": True
+                    "Scartata": i + 1 > min_partite
                 })
 
     records_sorted = sorted(records, key=lambda r: datetime.strptime(r["Data"], "%Y-%m-%d"))
 
-
-    # Scrivi il CSV aggiornato
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=['Data', 'Giocatore', 'Punti_obiettivo', 'Scartata'])
+        writer = csv.DictWriter(f, fieldnames=['Campionato', 'Data', 'Giocatore', 'Punti_obiettivo', 'Scartata'])
         writer.writeheader()
-        writer.writerows(records)
+        writer.writerows(records_sorted)
 
     print(f"Classifica obiettivo salvata in {csv_path}")
     
