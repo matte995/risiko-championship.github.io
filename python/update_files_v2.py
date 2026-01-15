@@ -159,6 +159,7 @@ def update_obiective_points(json_path, csv_path):
                 })
 
     records_sorted = sorted(records, key=lambda r: datetime.strptime(r["Data"], "%Y-%m-%d"))
+    print("Records ordinati per data:", records_sorted)
 
     with open(csv_path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=['Campionato', 'Data', 'Giocatore', 'Punti_obiettivo', 'Scartata'])
