@@ -39,11 +39,34 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
 
   // Function to filter data and build the chart
   function buildChart(selectedChampionship) {
+
     const filteredData = data.filter(d => d.Campionato == selectedChampionship);
 
-    // Group by player
-    const players = Array.from(d3.group(filteredData, d => d.Giocatore), ([key, values]) => ({ Giocatore: key, values }));
+    // Trova tutte le date del campionato selezionato
     const dates = Array.from(new Set(filteredData.map(d => d.Data))).sort(d3.ascending);
+
+    // Trova tutti i giocatori
+    const allPlayers = Array.from(new Set(filteredData.map(d => d.Giocatore)));
+
+    // Per ogni giocatore, crea un array di valori per tutte le date
+    const players = allPlayers.map(player => {
+      let playerData = filteredData.filter(d => d.Giocatore === player);
+      // Mappa date -> punteggio
+      const pointsByDate = new Map(playerData.map(d => [d.Data.getTime(), d.Punti_totali]));
+      let lastPoints = 0;
+      const values = dates.map(date => {
+        const key = date.getTime();
+        if (pointsByDate.has(key)) {
+          lastPoints = pointsByDate.get(key);
+        }
+        return {
+          Giocatore: player,
+          Data: date,
+          Punti_totali: lastPoints
+        };
+      });
+      return { Giocatore: player, values };
+    });
 
     // Point scale: equal spacing
     const x = d3.scalePoint()
