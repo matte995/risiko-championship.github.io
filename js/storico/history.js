@@ -281,7 +281,7 @@ d3.json("../../history.json").then(data => {
 
 
 // Richiama la funzione per caricare i campionati quando la pagina è pronta
-document.addEventListener('DOMContentLoaded', caricaCampionati);
+//document.addEventListener('DOMContentLoaded', caricaCampionati);
 // Richiama la funzione per caricare il campionato corrente quando la pagina è pronta
 document.addEventListener('DOMContentLoaded', caricaCampionatoCorrente);
 

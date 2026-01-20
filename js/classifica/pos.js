@@ -138,9 +138,15 @@ function caricaClassificaPosizione(campionato) {
             td.textContent = posizioni[p];
             tr.appendChild(td);
         }
+        const tdPartiteConsiderate = document.createElement('td');
+        tdPartiteConsiderate.textContent = minPartite;
+        tr.appendChild(tdPartiteConsiderate);
+        
         const tdTotale = document.createElement('td');
         tdTotale.textContent = totale;
         tr.appendChild(tdTotale);
+
+        
         tbody.appendChild(tr);
     });
 }
