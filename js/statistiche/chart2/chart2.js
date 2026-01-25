@@ -130,7 +130,8 @@ const tooltip = d3.select("#tooltip");
 
         //compute average points for legend display
         const playerAverages = players.map(p => {
-          const totalPoints = d3.mean(p.values, d => d.Punti_obiettivo);
+          const validGames = p.values.filter(d => !d.Scartata);
+          const totalPoints = d3.mean(validGames, d => d.Punti_obiettivo);
           return { Giocatore: p.Giocatore, Punti_obiettivo: totalPoints ? totalPoints.toFixed(2) : "0.00" };
         });
 
