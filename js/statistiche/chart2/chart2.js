@@ -151,7 +151,7 @@ const tooltip = d3.select("#tooltip");
               tooltip.style("opacity", 1)
               .html(`
                   <strong>${d.Giocatore}</strong><br>
-                  Media punti : ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo}
+                  Media punti : ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo}<br>
                   Media punti globale: ${playerAveragesAll.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo}
                 `)
                 .style("left", (event.pageX + 10) + "px")
