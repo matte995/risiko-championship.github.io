@@ -135,6 +135,12 @@ const tooltip = d3.select("#tooltip");
           return { Giocatore: p.Giocatore, Punti_obiettivo: totalPoints ? totalPoints.toFixed(2) : "0.00" };
         });
 
+        const playerAveragesAll = players.map(p => {
+          // Calcola la media punti su tutte le partite giocate (incluse scartate)
+          const avgPoints = d3.mean(p.values, d => d.Punti_obiettivo);
+          return { Giocatore: p.Giocatore, Punti_obiettivo: avgPoints ? avgPoints.toFixed(2) : "0.00" };
+        });
+
         // Legenda
         const legend = svg.selectAll(".legend")
           .data(players)
@@ -145,7 +151,8 @@ const tooltip = d3.select("#tooltip");
               tooltip.style("opacity", 1)
               .html(`
                   <strong>${d.Giocatore}</strong><br>
-                  Media punti: ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo}
+                  Media punti : ${playerAverages.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo}
+                  Media punti globale: ${playerAveragesAll.find(p => p.Giocatore === d.Giocatore).Punti_obiettivo}
                 `)
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 28) + "px");
