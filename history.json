@@ -206,5 +206,15 @@
       "giocatori_eliminati": [ 0, 0, 0, 0],
       "eliminato": [0, 0, 0, 0]
     }
+    ,
+    {
+      "data": "2026-02-17",
+      "giocatori": ["Riky", "Matte", "Sacha", "Lozzio"],
+      "punti_obiettivo": [0, 29, 44, 21, 77],
+      "piazzamento": [4, 3, 2, 1],
+      "obiettivo_completato": [ 0, 0, 0, 0],
+      "giocatori_eliminati": [ 0, 0, 1, 0],
+      "eliminato": [1, 0, 0, 0]
+    }
   ]
 ]
