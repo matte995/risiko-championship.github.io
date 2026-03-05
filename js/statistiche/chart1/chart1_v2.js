@@ -41,6 +41,12 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
   function buildChart(selectedChampionship) {
 
     const filteredData = data.filter(d => d.Campionato == selectedChampionship);
+    // Calcola quante partite ha giocato ogni giocatore
+    const gamesPlayed = {};
+    filteredData.forEach(d => {
+      if (!gamesPlayed[d.Giocatore]) gamesPlayed[d.Giocatore] = new Set();
+      gamesPlayed[d.Giocatore].add(d.Data.getTime());
+    });
 
     // Trova tutte le date del campionato selezionato
     const dates = Array.from(new Set(filteredData.map(d => d.Data))).sort(d3.ascending);
@@ -67,6 +73,15 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
       });
       return { Giocatore: player, values };
     });
+
+    const gamesByPlayer = {};
+            filteredData.forEach(d => {
+              if (!gamesByPlayer[d.Giocatore]) gamesByPlayer[d.Giocatore] = new Set();
+              gamesByPlayer[d.Giocatore].add(d.Data.getTime());
+            });
+            Object.entries(gamesByPlayer).forEach(([player, dates]) => {
+              console.log(`Giocatore ${player} ha giocato ${dates.size} partite nel campionato ${selectedChampionship}`);
+            });
 
     // Point scale: equal spacing
     const x = d3.scalePoint()
@@ -178,10 +193,15 @@ d3.csv("../../../js/statistiche/chart1/general_trend.csv").then(data => {
 
           if (info) {
             legendTooltip.transition().duration(200).style("opacity", 1);
+            // Calcola la media punti
+            const nGames = gamesPlayed[d.Giocatore] ? gamesPlayed[d.Giocatore].size : 0;
+            const avgPoints = nGames > 0 ? (info.Punti_totali / nGames).toFixed(1) : "-";
             legendTooltip.html(`
                 <strong>${d.Giocatore}</strong><br>
                 Posizione: #${info.Posizione}<br>
                 Punti totali: ${info.Punti_totali}<br>
+                Partite considerate: ${nGames}<br>
+                Media punti: ${avgPoints}
               `)
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 28) + "px");
