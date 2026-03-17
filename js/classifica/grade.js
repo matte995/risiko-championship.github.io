@@ -110,6 +110,8 @@ function caricaClassifica(campionato) {
       <td>${giocatore.eliminatoTotale}</td>
       <td>${minPartite}</td>
       <td>${giocatore.punteggioTotaleNormalizzato}</td>
+      <td>${(giocatore.punteggioTotaleNormalizzato / minPartite).toFixed(2)}</td>
+      <td>${(giocatore.punteggioTotale / giocatore.partiteGiocate).toFixed(2)}</td>
     `;
     tbody.appendChild(row);
   });

@@ -108,6 +108,15 @@
                 </select>
             </div>
         <hr>
+        <hr>
+        <hr>
+            <div class="classifica-select-wrapper">
+                <label for="classifica-select" class="classifica-label">Seleziona Metodo Classifica:</label>
+                <select id="classifica-select" class="form-control classifica-select">
+                    <!-- Opzioni generate dinamicamente -->
+                </select>
+            </div>
+        <hr>
         <h1 class="title center">Classifica Generale</h1>
         <hr>
         <hr>
@@ -121,6 +130,8 @@
             <th>Eliminato</th>
             <th>Partite Considerate</th>
             <th>Punteggio Totale</th>
+            <th>Media Punti Norm</th>
+            <th>Media Punti</th>
             <!--<th>Punteggio Totale 2</th>-->
             </tr>
         </thead>
@@ -131,6 +142,13 @@
     <hr>
     <h2 class="subtitle center">
         <strong>Punteggio Totale:</strong> tiene conto del numero partite disputate da ciascun giocatore. Ad ogni giocatore vengono scartate le partite con i risultati peggiori, in modo da arrivare al numero di partite disputate dal giocatore che ne ha di meno.
+        <br>
+        <br>
+        <strong>Media Punti Norm:</strong> Media dei punti utilizzando solo le partite utili al fine della classifica, scartando quindi le peggiori partite in eccesso rispetto al giocatore che ne ha disputate meno.
+        <br>
+        <br>
+        <strong>Media Punti:</strong> Media dei punti ottenuti su tutte le partite disputate
+        <br>
         <br>
     </h2>
         

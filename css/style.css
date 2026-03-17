@@ -38,6 +38,34 @@ body {
             }
         }
 
+.classifica-select-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0 10px 0;
+            
+        }
+        .classifica-label {
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .classifica-select {
+            width: 220px;
+            max-width: 60vw;
+            margin-bottom: 0;
+        }
+        @media (max-width: 600px) {
+            .classifica-select {
+                width: 95vw;
+                font-size: 1em;
+                max-width: 95vw;
+            }
+            .classifica-select-wrapper {
+                margin: 12px 0 6px 0;
+            }
+        }
+
 
 
 
