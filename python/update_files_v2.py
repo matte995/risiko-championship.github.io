@@ -1,21 +1,8 @@
 import json
 import os
 from datetime import datetime
-import argparse
 import csv
 
-'''
-def argparse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--date',  type=str, required=True, help='Date in the format YYYY-MM-DD')
-    parser.add_argument('--players', nargs='+', default=["matte, sacha, riky, ale"], help='List of players. Deafult: ["matte, sacha, riky, ale"]')
-    parser.add_argument('--points', nargs='+', default=[], help='List of points for each player. The list should respect the order of players. Default: []')
-    parser.add_argument('--pos', nargs='+', default=[], help='List of positions for each player. The list should respect the order of players. Default: []')
-    parser.add_argument('--points', nargs='+', default=[], help='description for option3')
-
-
-    return parser
-'''
 
 def convert_date(date_str):
     try:
@@ -34,7 +21,7 @@ BONUS_PIAZZAMENTO = {1: 100,
 
 def compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=5):
     punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (50 * giocatori_eliminati) + (150 * obiettivo_compleatato) - (50 * eliminato)) * (N / 4));
-    #print("Punteggio calcolato:", punteggioFinale)
+    
     return int(round(punteggioFinale, 0)) 
 
 def aggiorna_classifica(json_path, csv_path):
@@ -79,17 +66,11 @@ def aggiorna_classifica(json_path, csv_path):
         # Per chi ha giocato di più, elimina i peggiori risultati (punteggi più bassi)
         for giocatore, matches in player_matches.items():
 
-            print("giocatore:", giocatore, "ha giocato", len(matches), "partite; minimo è", min_partite)
             if len(matches) > min_partite:
                 matches.sort(key=lambda x: x["punti_singoli"], reverse=True)
-                #print("matches ordinati per punti_singoli:", matches)
                 player_matches[giocatore] = matches[:min_partite]
-                #print("matches dopo scarto peggiori:", player_matches[giocatore])
                 player_matches[giocatore].sort(key=lambda x: x["data"])
-                #print("partite scartate: ", matches[min_partite:])
-                #print("matches riordinati per data:", player_matches[giocatore])
-               # print("\n")
-
+    
         ### NEW: Ricostruisci punteggi cumulativi uniformati ###
         if idx_campionato not in punteggi_cumulativi:
             punteggi_cumulativi[idx_campionato] = {g: 0 for g in player_matches.keys()}
@@ -113,9 +94,8 @@ def aggiorna_classifica(json_path, csv_path):
         writer.writeheader()
         writer.writerows(records)
 
-    print(f"Classifica equalizzata salvata in {csv_path}")
 
-def update_obiective_points(json_path, csv_path):
+def update_obiective_points(json_path, objective_points_csv_path, total_points_csv_path):
     with open(json_path, 'r', encoding='utf-8') as f:
         campionati = json.load(f)
 
@@ -155,19 +135,36 @@ def update_obiective_points(json_path, csv_path):
                     "Data": match["data"],
                     "Giocatore": giocatore,
                     "Punti_obiettivo": match["punti_obiettivo"],
+                    "Punti_totali": match["punti_totali"],
                     "Scartata": i + 1 > min_partite
                 })
 
     records_sorted = sorted(records, key=lambda r: datetime.strptime(r["Data"], "%Y-%m-%d"))
-    print("Records ordinati per data:", records_sorted)
 
-    with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=['Campionato', 'Data', 'Giocatore', 'Punti_obiettivo', 'Scartata'])
+    # Filtra i record per ogni file in base alle fieldnames
+    objective_fields = ['Campionato', 'Data', 'Giocatore', 'Punti_obiettivo', 'Scartata']
+    total_fields = ['Campionato', 'Data', 'Giocatore', 'Punti_totali', 'Scartata']
+
+    objective_records = [
+        {k: r[k] for k in objective_fields if k in r}
+        for r in records_sorted if 'Punti_obiettivo' in r
+    ]
+    total_records = [
+        {k: r[k] for k in total_fields if k in r}
+        for r in records_sorted if 'Punti_totali' in r
+    ]
+
+    with open(objective_points_csv_path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=objective_fields)
         writer.writeheader()
-        writer.writerows(records_sorted)
+        writer.writerows(objective_records)
 
-    print(f"Classifica obiettivo salvata in {csv_path}")
-    
+    with open(total_points_csv_path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=total_fields)
+        writer.writeheader()
+        writer.writerows(total_records)
+
+
 
 def main():
     json_path = "../history.json"
@@ -175,8 +172,9 @@ def main():
     ######################################## UPDATE GENERAL TREND CSV #################################
     general_trend_csv_path = "../js/statistiche/chart1/general_trend.csv"
     objective_points_csv_path = "../js/statistiche/chart2/objective_points.csv"
+    total_points_csv_path = "../js/statistiche/chart3/total_points.csv"
     aggiorna_classifica(json_path, general_trend_csv_path)
-    update_obiective_points(json_path, objective_points_csv_path)
+    update_obiective_points(json_path, objective_points_csv_path, total_points_csv_path)
 
 if __name__ == "__main__":
     main()
