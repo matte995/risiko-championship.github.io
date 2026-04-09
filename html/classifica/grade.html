@@ -111,10 +111,14 @@
         <hr>
         <hr>
             <div class="classifica-select-wrapper">
-                <label for="classifica-select" class="classifica-label">Seleziona Metodo Classifica:</label>
-                <select id="classifica-select" class="form-control classifica-select">
-                    <!-- Opzioni generate dinamicamente -->
-                </select>
+                    <label for="classifica-select" class="classifica-label">Seleziona Metodo Classifica:</label>
+                    <select id="classifica-order" class="form-control classifica-select classifica-order">
+                        <option value="media">Media Punti</option>
+                        <option value="totale_norm">Punteggio Totale Norm</option>
+                        <option value="totale">Punteggio Totale</option>
+                        <option value="media_norm">Media Punti Norm</option>
+                        
+                    </select>
             </div>
         <hr>
         <h1 class="title center">Classifica Generale</h1>
@@ -129,6 +133,7 @@
             <th>Eliminazioni</th>
             <th>Eliminato</th>
             <th>Partite Considerate</th>
+            <th>Punteggio Totale Norm</th>
             <th>Punteggio Totale</th>
             <th>Media Punti Norm</th>
             <th>Media Punti</th>
@@ -157,6 +162,14 @@
     <h1 class="title center">Classifica Posizione</h1>
         <hr>
         <hr>
+        <div class="classifica-select-wrapper">
+            <label for="classifica-select" class="classifica-label">Seleziona:</label>
+            <select id="classifica-pos" class="form-control classifica-select classifica-pos">
+                <option value="tutte">Media Punti</option>
+                <option value="migliori">Migliori partite</option>
+            </select>
+        </div>
+        <hr>
         <table id="classifica_posizione">
         <thead>
             <tr>
@@ -178,8 +191,9 @@
         </table>
     <hr>
     <h2 class="subtitle center">
-        Tiene conto delle partite considerate per la classifica. Il totale è calcolato utilizzando i punteggi piazzamento con il rispettivo moltiplicatore partita. 
+        Se è selezionato <strong>Migliori</strong> fa la somma delle partite migliori. Il totale è calcolato utilizzando i punteggi piazzamento con il rispettivo moltiplicatore partita. 
         <br>
+        Se è selezionato <strong>Tutte</strong> calcola la media su tutte le partite.
     </h2>
     <hr>
     <hr>

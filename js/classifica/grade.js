@@ -41,7 +41,7 @@ function caricaCampionati() {
 }
 
 // Modifica la funzione caricaClassifica per accettare un campionato specifico
-function caricaClassifica(campionato) {
+function caricaClassifica(campionato, criterioOrdine = null) {
   const punteggiGiocatori = {};
 
   campionato.forEach(game => {
@@ -85,16 +85,44 @@ function caricaClassifica(campionato) {
       : 0;
   });
 
-  const classificaArray = Object.keys(punteggiGiocatori).map(player => ({
-    giocatore: player,
-    partiteGiocate: punteggiGiocatori[player].partiteGiocate,
-    punteggioTotale: punteggiGiocatori[player].punteggioTotale,
-    punteggioTotaleNormalizzato: punteggiGiocatori[player].punteggioTotaleNormalizzato,
-    eliminazioniTotale: punteggiGiocatori[player].eliminazioniTotale,
-    eliminatoTotale: punteggiGiocatori[player].eliminatoTotale
-  }));
 
-  classificaArray.sort((a, b) => b.punteggioTotaleNormalizzato - a.punteggioTotaleNormalizzato);
+  const classificaArray = Object.keys(punteggiGiocatori).map(player => {
+    const gioc = punteggiGiocatori[player];
+    return {
+      giocatore: player,
+      partiteGiocate: gioc.partiteGiocate,
+      punteggioTotale: gioc.punteggioTotale,
+      punteggioTotaleNormalizzato: gioc.punteggioTotaleNormalizzato,
+      eliminazioniTotale: gioc.eliminazioniTotale,
+      eliminatoTotale: gioc.eliminatoTotale,
+      mediaPunti: gioc.partiteGiocate > 0 ? gioc.punteggioTotale / gioc.partiteGiocate : 0,
+      mediaPuntiNorm: minPartite > 0 ? gioc.punteggioTotaleNormalizzato / minPartite : 0
+    };
+  });
+
+  // Ordina in base al criterio
+  let criterio = criterioOrdine;
+  if (!criterio) {
+    // Se non specificato, prendi il valore selezionato
+    const select_order = document.getElementById('classifica-order');
+    criterio = select_order ? select_order.value : 'totale_norm';
+    console.log(`Ordinamento per: ${criterio}`);
+  }
+  switch (criterio) {
+    case 'media':
+      classificaArray.sort((a, b) => b.mediaPunti - a.mediaPunti);
+      break;
+    case 'totale':
+      classificaArray.sort((a, b) => b.punteggioTotale - a.punteggioTotale);
+      break;
+    case 'media_norm':
+      classificaArray.sort((a, b) => b.mediaPuntiNorm - a.mediaPuntiNorm);
+      break;
+    case 'totale_norm':
+    default:
+      classificaArray.sort((a, b) => b.punteggioTotaleNormalizzato - a.punteggioTotaleNormalizzato);
+      break;
+  }
 
   const table = document.getElementById('classifica');
   const tbody = table.querySelector('tbody');
@@ -110,12 +138,54 @@ function caricaClassifica(campionato) {
       <td>${giocatore.eliminatoTotale}</td>
       <td>${minPartite}</td>
       <td>${giocatore.punteggioTotaleNormalizzato}</td>
-      <td>${(giocatore.punteggioTotaleNormalizzato / minPartite).toFixed(2)}</td>
-      <td>${(giocatore.punteggioTotale / giocatore.partiteGiocate).toFixed(2)}</td>
+      <td>${giocatore.punteggioTotale}</td>
+      <td>${giocatore.mediaPuntiNorm.toFixed(2)}</td>
+      <td>${giocatore.mediaPunti.toFixed(2)}</td>
     `;
     tbody.appendChild(row);
   });
 }
 
+// Funzione per ordinare la classifica in base al select
+function ordinaClassifica() {
+  // Prendi il campionato selezionato
+  const selectCampionato = document.getElementById('campionato-select');
+  const campionatiData = window._campionatiData;
+  if (!campionatiData || !selectCampionato) return;
+  const selectedIndex = selectCampionato.value;
+  const campionato = campionatiData[selectedIndex];
+  caricaClassifica(campionato);
+}
+
+
 // Richiama la funzione per caricare i campionati quando la pagina è pronta
-document.addEventListener('DOMContentLoaded', caricaCampionati);
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('../../history.json')
+    .then(response => response.json())
+    .then(data => {
+      window._campionatiData = data;
+      const select = document.getElementById('campionato-select');
+      select.innerHTML = '';
+      data.forEach((campionato, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `Campionato ${index + 1}`;
+        select.appendChild(option);
+      });
+      const lastIndex = data.length - 1;
+      select.value = lastIndex;
+      caricaClassifica(data[lastIndex]);
+      select.addEventListener('change', () => {
+        const selectedIndex = select.value;
+        caricaClassifica(data[selectedIndex]);
+      });
+      // Listener per il select di ordinamento
+      const selectOrdine = document.getElementById('classifica-order');
+      if (selectOrdine) {
+        selectOrdine.addEventListener('change', () => {
+          ordinaClassifica();
+        });
+      }
+    })
+    .catch(err => console.error('Errore nel caricamento dei campionati:', err));
+});

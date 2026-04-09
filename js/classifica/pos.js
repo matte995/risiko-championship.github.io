@@ -58,7 +58,7 @@ function caricaCampionatiPosizione() {
         .catch(err => console.error('Errore nel caricamento dei campionati:', err));
 }
 
-function caricaClassificaPosizione(campionato) {
+function caricaClassificaPosizione(campionato, criterio = 'migliori') {
     const partitePerGiocatore = {};
 
     // 1. Raccoglie tutte le partite
@@ -82,24 +82,19 @@ function caricaClassificaPosizione(campionato) {
         ...Object.values(partitePerGiocatore).map(p => p.length)
     );
 
-    //console.log('Partite considerate per tutti:', minPartite);
-
-    // 3. Scarta peggiori partite e conta posizioni
+    // 3. Conta posizioni in base al criterio
     const posizioniGiocatori = {};
 
     Object.entries(partitePerGiocatore).forEach(([player, partite]) => {
+        let partiteConsiderate;
+        if (criterio === 'tutte') {
+            partiteConsiderate = partite;
+        } else {
+            partiteConsiderate = partite.slice().sort((a, b) => b.punteggio - a.punteggio).slice(0, minPartite);
+        }
 
-        // Ordina per punteggio (migliori prima)
-        const migliori = partite
-            .slice()
-            .sort((a, b) => b.punteggio - a.punteggio)
-            .slice(0, minPartite);
-
-        posizioniGiocatori[player] = {
-            1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0
-        };
-
-        migliori.forEach(p => {
+        posizioniGiocatori[player] = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+        partiteConsiderate.forEach(p => {
             if (p.piazzamento >= 1 && p.piazzamento <= 6) {
                 posizioniGiocatori[player][p.piazzamento]++;
             }
@@ -112,15 +107,24 @@ function caricaClassificaPosizione(campionato) {
 
     // Prepara array per ordinamento
     const rows = Object.entries(posizioniGiocatori).map(([player, posizioni]) => {
-        const partite = partitePerGiocatore[player]
-            .slice()
-            .sort((a, b) => b.punteggio - a.punteggio)
-            .slice(0, minPartite);
-        const totale = partite.reduce((acc, partita) => acc + partita.bonusPiazzamento * partita.peso, 0);
+        let partiteConsiderate;
+        if (criterio === 'tutte') {
+            partiteConsiderate = partitePerGiocatore[player];
+        } else {
+            partiteConsiderate = partitePerGiocatore[player].slice().sort((a, b) => b.punteggio - a.punteggio).slice(0, minPartite);
+        }
+        const totale = partiteConsiderate.reduce((acc, partita) => acc + partita.bonusPiazzamento * partita.peso, 0);
+        let valoreTotale;
+        if (criterio === 'tutte' && partiteConsiderate.length > 0) {
+            valoreTotale = (totale / partiteConsiderate.length).toFixed(2);
+        } else {
+            valoreTotale = Math.round(totale);
+        }
         return {
             player,
             posizioni,
-            totale: Math.round(totale)
+            totale: valoreTotale,
+            partiteCount: partiteConsiderate.length
         };
     });
 
@@ -128,7 +132,7 @@ function caricaClassificaPosizione(campionato) {
     rows.sort((a, b) => b.totale - a.totale);
 
     // Popola la tabella
-    rows.forEach(({player, posizioni, totale}) => {
+    rows.forEach(({player, posizioni, totale, partiteCount}) => {
         const tr = document.createElement('tr');
         const tdNome = document.createElement('td');
         tdNome.textContent = player;
@@ -139,14 +143,11 @@ function caricaClassificaPosizione(campionato) {
             tr.appendChild(td);
         }
         const tdPartiteConsiderate = document.createElement('td');
-        tdPartiteConsiderate.textContent = minPartite;
+        tdPartiteConsiderate.textContent = partiteCount;
         tr.appendChild(tdPartiteConsiderate);
-        
         const tdTotale = document.createElement('td');
         tdTotale.textContent = totale;
         tr.appendChild(tdTotale);
-
-        
         tbody.appendChild(tr);
     });
 }
@@ -154,4 +155,36 @@ function caricaClassificaPosizione(campionato) {
 // ===============================
 // AVVIO
 // ===============================
-document.addEventListener('DOMContentLoaded', caricaCampionatiPosizione);
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('../../history.json')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('campionato-select');
+            select.innerHTML = '';
+            data.forEach((campionato, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `Campionato ${index + 1}`;
+                select.appendChild(option);
+            });
+            const lastIndex = data.length - 1;
+            select.value = lastIndex;
+            // Listener per select criterio posizione
+            const selectPos = document.getElementById('classifica-pos');
+            let criterio = selectPos ? selectPos.value : 'migliori';
+            caricaClassificaPosizione(data[lastIndex], criterio);
+            select.addEventListener('change', () => {
+                const selectedIndex = select.value;
+                let criterio = selectPos ? selectPos.value : 'migliori';
+                caricaClassificaPosizione(data[selectedIndex], criterio);
+            });
+            if (selectPos) {
+                selectPos.addEventListener('change', () => {
+                    const selectedIndex = select.value;
+                    let criterio = selectPos.value;
+                    caricaClassificaPosizione(data[selectedIndex], criterio);
+                });
+            }
+        })
+        .catch(err => console.error('Errore nel caricamento dei campionati:', err));
+});
