@@ -109,14 +109,11 @@
             </div>
         <hr>
         <hr>
-        <hr>
             <div class="classifica-select-wrapper">
                     <label for="classifica-select" class="classifica-label">Seleziona Metodo Classifica:</label>
                     <select id="classifica-order" class="form-control classifica-select classifica-order">
                         <option value="media">Media Punti</option>
                         <option value="totale_norm">Punteggio Totale Norm</option>
-                        <option value="totale">Punteggio Totale</option>
-                        <option value="media_norm">Media Punti Norm</option>
                         
                     </select>
             </div>
@@ -132,10 +129,7 @@
             <th>Partite Giocate</th>
             <th>Eliminazioni</th>
             <th>Eliminato</th>
-            <th>Partite Considerate</th>
             <th>Punteggio Totale Norm</th>
-            <th>Punteggio Totale</th>
-            <th>Media Punti Norm</th>
             <th>Media Punti</th>
             <!--<th>Punteggio Totale 2</th>-->
             </tr>
@@ -147,9 +141,6 @@
     <hr>
     <h2 class="subtitle center">
         <strong>Punteggio Totale:</strong> tiene conto del numero partite disputate da ciascun giocatore. Ad ogni giocatore vengono scartate le partite con i risultati peggiori, in modo da arrivare al numero di partite disputate dal giocatore che ne ha di meno.
-        <br>
-        <br>
-        <strong>Media Punti Norm:</strong> Media dei punti utilizzando solo le partite utili al fine della classifica, scartando quindi le peggiori partite in eccesso rispetto al giocatore che ne ha disputate meno.
         <br>
         <br>
         <strong>Media Punti:</strong> Media dei punti ottenuti su tutte le partite disputate
@@ -166,7 +157,7 @@
             <label for="classifica-select" class="classifica-label">Seleziona:</label>
             <select id="classifica-pos" class="form-control classifica-select classifica-pos">
                 <option value="tutte">Media Punti</option>
-                <option value="migliori">Migliori partite</option>
+                <option value="migliori">Punteggio Totale Norm</option>
             </select>
         </div>
         <hr>
@@ -191,7 +182,7 @@
         </table>
     <hr>
     <h2 class="subtitle center">
-        Se è selezionato <strong>Migliori</strong> fa la somma delle partite migliori. Il totale è calcolato utilizzando i punteggi piazzamento con il rispettivo moltiplicatore partita. 
+        Se è selezionato <strong>Punteggio Totale Norm</strong> fa la somma delle partite migliori. Il totale è calcolato utilizzando i punteggi piazzamento con il rispettivo moltiplicatore partita. 
         <br>
         Se è selezionato <strong>Tutte</strong> calcola la media su tutte le partite.
     </h2>

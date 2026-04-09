@@ -112,12 +112,6 @@ function caricaClassifica(campionato, criterioOrdine = null) {
     case 'media':
       classificaArray.sort((a, b) => b.mediaPunti - a.mediaPunti);
       break;
-    case 'totale':
-      classificaArray.sort((a, b) => b.punteggioTotale - a.punteggioTotale);
-      break;
-    case 'media_norm':
-      classificaArray.sort((a, b) => b.mediaPuntiNorm - a.mediaPuntiNorm);
-      break;
     case 'totale_norm':
     default:
       classificaArray.sort((a, b) => b.punteggioTotaleNormalizzato - a.punteggioTotaleNormalizzato);
@@ -130,16 +124,25 @@ function caricaClassifica(campionato, criterioOrdine = null) {
 
   classificaArray.forEach((giocatore, index) => {
     const row = document.createElement('tr');
+    //row.innerHTML = `
+    //  <td>${index + 1}</td>
+    //  <td>${giocatore.giocatore}</td>
+    // <td>${giocatore.partiteGiocate}</td>
+    //  <td>${giocatore.eliminazioniTotale}</td>
+    //  <td>${giocatore.eliminatoTotale}</td>
+    //  <td>${minPartite}</td>
+    //  <td>${giocatore.punteggioTotaleNormalizzato}</td>
+    //  <td>${giocatore.punteggioTotale}</td>
+    //  <td>${giocatore.mediaPuntiNorm.toFixed(2)}</td>
+    //  <td>${giocatore.mediaPunti.toFixed(2)}</td>
+    //`;
     row.innerHTML = `
       <td>${index + 1}</td>
       <td>${giocatore.giocatore}</td>
       <td>${giocatore.partiteGiocate}</td>
       <td>${giocatore.eliminazioniTotale}</td>
       <td>${giocatore.eliminatoTotale}</td>
-      <td>${minPartite}</td>
       <td>${giocatore.punteggioTotaleNormalizzato}</td>
-      <td>${giocatore.punteggioTotale}</td>
-      <td>${giocatore.mediaPuntiNorm.toFixed(2)}</td>
       <td>${giocatore.mediaPunti.toFixed(2)}</td>
     `;
     tbody.appendChild(row);
