@@ -1,9 +1,13 @@
 Campionato,Data,Giocatore,Punti_obiettivo,Scartata
-3,2025-04-2,Matte,17,False
-3,2025-04-2,Sacha,16,False
-3,2025-04-2,Riky,4,False
+3,2025-04-2,Matte,17,True
+3,2025-04-2,Sacha,16,True
+3,2025-04-2,Riky,4,True
 3,2025-04-2,Mirko,55,False
 3,2025-04-2,Lozzio,56,False
+3,2025-04-9,Matte,150,False
+3,2025-04-9,Sacha,17,False
+3,2025-04-9,Riky,34,False
+3,2025-04-9,Mirko,16,True
 1,2025-09-25,Matte,21,False
 1,2025-09-25,Sacha,25,False
 1,2025-09-25,Riky,15,True

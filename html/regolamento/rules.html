@@ -100,8 +100,8 @@
                     </li>
                     <br>
                     <li><b>Bonus eliminazione giocaore:</b> 50 punti</li>
-                    <li><b>Bonus obiettivo completato:</b> 150 punti</li>
                     <li><b>Malus giocatore eliminato:</b> -50 punti</li>
+                    <li>Bonus obiettivo completato: <strong>150 punti</strong> punti verranno attribuiti al posto dei punti obiettivo effettuati</li>
                     <li>Se a fine della partita due giocatori avessero ottenuto lo stesso punteggio, allora, per la posizione, si conteranno i pounti degli stati fuori obiettivo. Successiamente verrà considerato il turno di gioco, come da regolamento di Risiko Challenge</li>    
                         
                 </ul>
@@ -119,10 +119,11 @@
                 <div>
                 <h2 class="title center">3. Calcolo punteggio finale per singola partita</h2><br>
                 <div class="subtitle left">
-                    <p><i>Punteggio Partita = (A + P + (50 * E) + 150 * O - (50 * S)) * (N/4)</i></p>
+                    <p><i>Punteggio Partita = (A + P + (50 * E) - (50 * S)) * (N/4)</i></p>
+                    <p><b>Nota:</b> Se O = 1 (obiettivo completato), allora A = 150. Altrimenti, A = punti obiettivo.</p>
                     <p>Dati:
                         <ul>
-                            <li>A = Punteggio Obiettivo (punti obiettivo)</li>
+                            <li>A = Punteggio Obiettivo (<b>se O = 1 allora A = 150, altrimenti A = punti obiettivo</b>)</li>
                             <li>P = Bonus piazzamento (da tabella sopra)</li>
                             <li>E = Numero eliminazioni del giocatore</li>
                             <li>O = 1 se ha completato obiettivo, 0 altrimenti</li>
@@ -196,6 +197,8 @@
                 <div class="subtitle left">
                    <ul>
                         <li> Timer giocatore 1 minuti. Il timer scorre solo nella fase passiva del giocatore. Quando il giocatore sta giocando attivamente il timer verrà messo in pausa. In caso il timer dovesse scadere il giocatore finirà automaticamente il turno (no spostamenti, no niente.. si passa il turno, al massimo si prende solo carta)</li>
+                        <li> Una volta dichiarato l'attacco non si può tornare indietro. Si deve fare almeno un attacco nel territorio dichiarato e poi si può cambiare obiettivo</li>
+
                         <!--
                         <li> Il giocatore non può prendere lo stesso colore di carro armato della partita precedente.</li>
                         -->

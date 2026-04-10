@@ -20,7 +20,7 @@ BONUS_PIAZZAMENTO = {1: 100,
 
 
 def compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=5):
-    punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (50 * giocatori_eliminati) + (150 * obiettivo_compleatato) - (50 * eliminato)) * (N / 4));
+    punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (50 * giocatori_eliminati) - (50 * eliminato)) * (N / 4));
     
     return int(round(punteggioFinale, 0)) 
 
@@ -48,6 +48,8 @@ def aggiorna_classifica(json_path, csv_path):
                 partita['giocatori_eliminati'],
                 partita['eliminato']
             ):
+                if obiettivo_compleatato == 1:
+                    punti = 150
                 punti_match = compute_single_match_points(
                     punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=len(partita['giocatori'])
                 )
@@ -118,6 +120,9 @@ def update_obiective_points(json_path, objective_points_csv_path, total_points_c
             ):
                 if giocatore not in player_matches:
                     player_matches[giocatore] = []
+                
+                if obiettivo_compleatato == 1:
+                    punti = 150
                 player_matches[giocatore].append({
                     "data": data,
                     "punti_obiettivo": punti,

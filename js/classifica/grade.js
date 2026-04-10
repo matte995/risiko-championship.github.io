@@ -48,13 +48,15 @@ function caricaClassifica(campionato, criterioOrdine = null) {
     const N = game.giocatori.length;
 
     game.giocatori.forEach((player, i) => {
-      const A = Number(game.punti_obiettivo[i]);
+      //const A = Number(game.punti_obiettivo[i]);
+      const O = Number(game.obiettivo_completato[i]);
+      const A = O === 1 ? 150 : Number(game.punti_obiettivo[i]);
       const P = getBonusPiazzamento(Number(game.piazzamento[i]));
       const E = Number(game.giocatori_eliminati[i]);
-      const O = Number(game.obiettivo_completato[i]);
+      //const O = Number(game.obiettivo_completato[i]);
       const S = Number(game.eliminato[i]);
 
-      const punteggioFinale = Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
+      const punteggioFinale = Math.round((A + P + (50 * E) - (50 * S)) * (N / 4));
 
       if (!punteggiGiocatori[player]) {
         punteggiGiocatori[player] = {

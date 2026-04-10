@@ -101,14 +101,14 @@ function caricaCampionati() {
 
       // ---- Prepariamo i dati ordinati per piazzamento ----
       const playersData = game.giocatori.map((player, i) => {
-        const A = Number(game.punti_obiettivo[i]);
+        const O = Number(game.obiettivo_completato[i]);
+        const A = O === 1 ? 150 : Number(game.punti_obiettivo[i]);
         const P = getBonusPiazzamento(Number(game.piazzamento[i]));        // Bonus piazzamento
         const E = Number(game.giocatori_eliminati[i]);
-        const O = Number(game.obiettivo_completato[i]);
         const S = Number(game.eliminato[i]);
         const N = game.giocatori.length;
 
-        const punteggioFinale = Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
+        const punteggioFinale = Math.round((A + P + (50 * E) - (50 * S)) * (N / 4));
         return {
           player,
           A,
@@ -226,16 +226,14 @@ d3.json("../../history.json").then(data => {
 
     // ---- Prepariamo i dati ordinati per piazzamento ----
     const playersData = game.giocatori.map((player, i) => {
-      const A = Number(game.punti_obiettivo[i]);
+      const O = Number(game.obiettivo_completato[i]);
+      const A = O === 1 ? 150 : Number(game.punti_obiettivo[i]);
       const P = getBonusPiazzamento(Number(game.piazzamento[i]));        // Bonus piazzamento
       const E = Number(game.giocatori_eliminati[i]);
-      const O = Number(game.obiettivo_completato[i]);
       const S = Number(game.eliminato[i]);
       const N = game.giocatori.length;
 
-      const punteggioFinale = Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
-      
-
+      const punteggioFinale = Math.round((A + P + (50 * E) - (50 * S)) * (N / 4));
 
       return {
         player,
