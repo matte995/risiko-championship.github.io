@@ -5,9 +5,14 @@ Campionato,Data,Giocatore,Punti_totali,Scartata
 3,2025-04-2,Mirko,131,False
 3,2025-04-2,Lozzio,195,False
 3,2025-04-9,Matte,250,False
-3,2025-04-9,Sacha,42,False
+3,2025-04-9,Sacha,42,True
 3,2025-04-9,Riky,84,False
 3,2025-04-9,Mirko,26,True
+3,2025-04-22,Matte,35,True
+3,2025-04-22,Sacha,185,False
+3,2025-04-22,Riky,28,True
+3,2025-04-22,Lozzio,116,True
+3,2025-04-22,Ale,61,False
 1,2025-09-25,Matte,58,False
 1,2025-09-25,Sacha,94,False
 1,2025-09-25,Riky,25,True
