@@ -272,7 +272,7 @@
     }
   ],
   [{
-    "data": "2025-04-2",
+    "data": "2026-04-2",
     "giocatori": ["Matte", "Sacha", "Riky", "Mirko", "Lozzio"],
     "punti_obiettivo": [17, 16, 4, 55, 56],
     "piazzamento": [3, 4, 5, 2, 1],
@@ -281,7 +281,7 @@
     "eliminato": [0, 0, 0, 0, 0]
   },
   {
-    "data": "2025-04-9",
+    "data": "2026-04-9",
     "giocatori": ["Matte", "Sacha", "Riky", "Mirko"],
     "punti_obiettivo": [86, 17, 34, 16],
     "piazzamento": [1, 3, 2, 4],
@@ -290,7 +290,7 @@
     "eliminato": [0, 0, 0, 0]
   },
   {
-    "data": "2025-04-22",
+    "data": "2026-04-22",
     "giocatori": ["Matte", "Sacha", "Riky", "Lozzio", "Ale"],
     "punti_obiettivo": [18, 48, 17, 43, 24],
     "piazzamento": [4, 1, 5, 2, 3],
@@ -299,13 +299,31 @@
     "eliminato": [0, 0, 0, 0, 0]
   },
   {
-    "data": "2025-04-23",
+    "data": "2026-04-23",
     "giocatori": ["Matte", "Sacha", "Riky", "Lozzio", "Ale", "Mirko"],
     "punti_obiettivo": [15, 19, 27, 28, 12, 43],
     "piazzamento": [5, 4, 3, 2, 6, 1],
     "obiettivo_completato": [0, 0, 0, 0, 0, 0],
     "giocatori_eliminati": [0, 0, 0, 0, 0, 0],
     "eliminato": [0, 0, 0, 0, 0, 0]
+  },
+  {
+    "data": "2026-04-30",
+    "giocatori": ["Sacha", "Riky", "Lozzio", "Ale", "Mirko"],
+    "punti_obiettivo": [36, 0, 30, 27, 32],
+    "piazzamento": [1, 5, 3, 4, 2],
+    "obiettivo_completato": [ 0, 0, 0, 0, 0],
+    "giocatori_eliminati": [ 0, 0, 0, 0, 0],
+    "eliminato": [0, 0, 0, 0, 0]
+  },
+  {
+    "data": "2026-05-1",
+    "giocatori": ["Sacha", "Riky", "Lozzio", "Ale", "Mirko"],
+    "punti_obiettivo": [27, 30, 51, 36, 16],
+    "piazzamento": [4, 3, 1, 2, 5],
+    "obiettivo_completato": [ 0, 0, 0, 0, 0],
+    "giocatori_eliminati": [ 0, 0, 0, 0, 0],
+    "eliminato": [0, 0, 0,  0, 0]
   }
   ]
 ]
