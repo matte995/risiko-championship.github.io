@@ -108,7 +108,7 @@ function caricaCampionati() {
         const S = Number(game.eliminato[i]);
         const N = game.giocatori.length;
 
-        const punteggioFinale = Math.round((A + P + (50 * E) - (50 * S)) * (N / 4));
+        const punteggioFinale = Math.round(((A + P ) * (N / 4)) + (50 * E) - (50 * S));
         return {
           player,
           A,
@@ -233,7 +233,7 @@ d3.json("../../history.json").then(data => {
       const S = Number(game.eliminato[i]);
       const N = game.giocatori.length;
 
-      const punteggioFinale = Math.round((A + P + (50 * E) - (50 * S)) * (N / 4));
+      const punteggioFinale = Math.round(((A + P ) * (N / 4)) + (50 * E) - (50 * S));
 
       return {
         player,

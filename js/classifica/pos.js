@@ -17,14 +17,15 @@ function getBonusPiazzamento(piazzamento) {
 // PUNTEGGIO SINGOLA PARTITA
 // ===============================
 function calcolaPunteggioPartita(game, N, i) {
-    const A = Number(game.punti_obiettivo[i]);
+    const O = Number(game.obiettivo_completato[i]);
+    const A = O === 1 ? 150 : Number(game.punti_obiettivo[i]);
     const P = getBonusPiazzamento(Number(game.piazzamento[i]));
     const E = Number(game.giocatori_eliminati[i]);
-    const O = Number(game.obiettivo_completato[i]);
+    //const O = Number(game.obiettivo_completato[i]);
     const S = Number(game.eliminato[i]);
 
     // FORMULA FINALE
-    return Math.round((A + P + (50 * E) + (150 * O) - (50 * S)) * (N / 4));
+    return Math.round(((A + P ) * (N / 4)) + (50 * E) - (50 * S));
 }
 
 // ===============================

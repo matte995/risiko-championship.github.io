@@ -20,7 +20,7 @@ BONUS_PIAZZAMENTO = {1: 100,
 
 
 def compute_single_match_points(punti, piazzamento, obiettivo_compleatato, giocatori_eliminati, eliminato, N=5):
-    punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento] + (50 * giocatori_eliminati) - (50 * eliminato)) * (N / 4));
+    punteggioFinale = ((punti + BONUS_PIAZZAMENTO[piazzamento]) * (N / 4)  + (50 * giocatori_eliminati) - (50 * eliminato));
     
     return int(round(punteggioFinale, 0)) 
 
