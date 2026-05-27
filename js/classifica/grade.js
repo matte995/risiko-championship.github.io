@@ -56,7 +56,7 @@ function caricaClassifica(campionato, criterioOrdine = null) {
       //const O = Number(game.obiettivo_completato[i]);
       const S = Number(game.eliminato[i]);
 
-      const punteggioFinale = Math.round((A + P + (50 * E) - (50 * S)) * (N / 4));
+      const punteggioFinale = Math.round((A + P ) * (N / 4) + (50 * E) - (50 * S));
 
       if (!punteggiGiocatori[player]) {
         punteggiGiocatori[player] = {
