@@ -139,14 +139,14 @@ Campionato,Data,Giocatore,Punti_obiettivo,Scartata
 2,2026-03-23,Ale,20,False
 3,2026-04-2,Matte,17,False
 3,2026-04-2,Sacha,16,True
-3,2026-04-2,Riky,4,False
+3,2026-04-2,Riky,4,True
 3,2026-04-2,Mirko,55,False
 3,2026-04-2,Lozzio,56,False
 3,2026-04-9,Matte,150,False
 3,2026-04-9,Sacha,17,True
 3,2026-04-9,Riky,34,False
 3,2026-04-9,Mirko,16,False
-3,2026-04-22,Matte,18,False
+3,2026-04-22,Matte,18,True
 3,2026-04-22,Sacha,48,False
 3,2026-04-22,Riky,17,False
 3,2026-04-22,Lozzio,43,False
@@ -170,7 +170,7 @@ Campionato,Data,Giocatore,Punti_obiettivo,Scartata
 3,2026-05-7,Matte,35,False
 3,2026-05-7,Sacha,46,False
 3,2026-05-7,Riky,12,False
-3,2026-05-7,Mirko,11,False
+3,2026-05-7,Mirko,11,True
 3,2026-05-7,Ale,26,False
 3,2026-05-11,Matte,39,False
 3,2026-05-11,Sacha,17,True
@@ -190,5 +190,9 @@ Campionato,Data,Giocatore,Punti_obiettivo,Scartata
 3,2026-05-25,Sacha,22,False
 3,2026-05-25,Riky,0,True
 3,2026-05-25,Mirko,34,False
-3,2026-05-25,Lozzio,0,False
+3,2026-05-25,Lozzio,0,True
 3,2026-05-25,Ale,49,False
+3,2026-06-4,Matte,16,False
+3,2026-06-4,Riky,60,False
+3,2026-06-4,Mirko,32,False
+3,2026-06-4,Lozzio,7,False
